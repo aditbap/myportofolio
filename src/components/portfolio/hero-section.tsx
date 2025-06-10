@@ -5,14 +5,17 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="intro"
-      className="container mx-auto px-4 sm:px-6 lg:px-8 text-left min-h-[calc(100vh-7rem)] sm:min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8rem)]"
+      className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 text-left min-h-[calc(100vh-7rem)] sm:min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8rem)]"
     >
-      <div className="max-w-3xl"> {/* Ensure this div allows text to align under navbar based on main's padding */}
+      <div className="px-6"> {/* Changed from max-w-3xl to px-6 */}
         <p className="font-jakarta font-extrabold text-2xl sm:text-3xl md:text-4xl text-foreground mb-1 sm:mb-2 animate-fadeInUp">
-          i&apos;m rocky <span role="img" aria-label="victory hand">✌️</span>
+          i&apos;m adit <span role="img" aria-label="victory hand">✌️</span>
         </p>
-        <p className="font-jakarta font-extrabold text-4xl sm:text-5xl md:text-6xl text-foreground mb-1 sm:mb-2 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-          product designer unfolding stories @instagram through prototypes
+        <p 
+          className="font-jakarta font-extrabold text-3xl sm:text-5xl md:text-6xl text-foreground mb-1 sm:mb-2 animate-fadeInUp" 
+          style={{ animationDelay: '0.2s' }}
+        >
+          student at computer science @scrolldown through prototypes
         </p>
       </div>
     </section>
