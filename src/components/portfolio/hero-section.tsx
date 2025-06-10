@@ -1,29 +1,22 @@
 // src/components/portfolio/hero-section.tsx
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowDownToLine } from 'lucide-react';
 
 const HeroSection: React.FC = () => {
   return (
     <section 
       id="intro" 
-      className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 flex flex-col justify-center items-center text-center min-h-[calc(80vh-8rem)]"
+      className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 flex flex-col justify-center items-start text-left min-h-[calc(100vh-12rem)] md:min-h-[calc(100vh-15rem)]" // Adjusted min-height
     >
-      <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary mb-4 animate-fadeInUp">
-        Hello, I'm <span className="text-accent">John Doe</span>
-      </h1>
-      <p className="font-body text-lg md:text-2xl text-foreground/80 mb-8 max-w-2xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-        A passionate Full-Stack Developer crafting seamless digital experiences.
-      </p>
-      <div className="flex space-x-4 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
-        <Button size="lg" asChild className="bg-primary hover:bg-accent text-primary-foreground">
-          <a href="#projects">View My Work</a>
-        </Button>
-        <Button variant="outline" size="lg" asChild className="border-primary text-primary hover:bg-primary/10 hover:text-accent">
-          <a href="/resume.pdf" download>
-            <ArrowDownToLine className="mr-2 h-5 w-5" /> Download CV
-          </a>
-        </Button>
+      <div className="max-w-3xl"> {/* Added max-width for text block */}
+        <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl text-foreground mb-3 sm:mb-4 animate-fadeInUp">
+          i&apos;m rocky <span role="img" aria-label="waving hand">👋</span>
+        </h1>
+        <p className="font-jakarta text-5xl sm:text-6xl md:text-8xl font-bold text-foreground mb-3 sm:mb-4 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+          product designer unfolding stories
+        </p>
+        <p className="font-jakarta text-3xl sm:text-4xl md:text-5xl text-foreground/80 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+          @instagram through prototypes
+        </p>
       </div>
     </section>
   );

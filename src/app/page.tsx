@@ -1,8 +1,5 @@
 
 import HeroSection from '@/components/portfolio/hero-section';
-import WorkExperienceSection from '@/components/portfolio/work-experience-section';
-import ProjectsSection from '@/components/portfolio/projects-section';
-import ContactSection from '@/components/portfolio/contact-section';
 import Link from 'next/link';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
@@ -45,17 +42,11 @@ export default function BentoPortfolioPage() {
         </div>
       </header>
       
-      <main className="flex-grow pt-32"> 
+      <main className="flex-grow pt-32 sm:pt-36 md:pt-40"> {/* Adjusted top padding */}
         <HeroSection />
-        <WorkExperienceSection />
-        <ProjectsSection />
-        <ContactSection />
       </main>
       
-      <footer className="py-8 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} John Doe. All rights reserved.</p>
-        <p>Built with Next.js, Tailwind CSS, and ShadCN UI.</p>
-      </footer>
+      {/* Footer and other sections removed as per the image focusing on hero */}
     </div>
   );
 }
