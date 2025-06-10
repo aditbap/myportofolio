@@ -11,7 +11,7 @@ export default function BentoPortfolioPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl px-4">
         <div className="bg-neutral-800 rounded-full shadow-xl px-6 py-5 flex items-center justify-between w-full shrink-0 outline-none">
-          <Link href="/" className="font-jakarta text-base sm:text-lg text-neutral-500 hover:opacity-80 transition-opacity">
+          <Link href="/" className="font-jakarta text-sm sm:text-base text-neutral-500 hover:opacity-80 transition-opacity tracking-wider">
             ROCKY CHEN
           </Link>
           
