@@ -1,14 +1,16 @@
 
 import HeroSection from '@/components/portfolio/hero-section';
+import WorkExperienceSection from '@/components/portfolio/work-experience-section';
+import ProjectsSection from '@/components/portfolio/projects-section';
+import ContactSection from '@/components/portfolio/contact-section';
 import Link from 'next/link';
-import { Linkedin, Mail } from 'lucide-react'; // Github icon removed from import
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function BentoPortfolioPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl px-4">
-        {/* Classes bg-neutral-800 and shadow-xl removed from the div below */}
-        <div className="rounded-full px-6 py-6 flex items-center justify-between w-full shrink-0 outline-none">
+      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md sm:max-w-lg md:max-w-xl px-4">
+        <div className="bg-neutral-800 rounded-full shadow-xl px-6 py-6 flex items-center justify-between w-full shrink-0 outline-none">
           <Link href="/" className="font-jakarta text-sm sm:text-base text-neutral-500 hover:opacity-80 transition-opacity tracking-[0.15em]">
             ROCKY CHEN
           </Link>
@@ -23,7 +25,15 @@ export default function BentoPortfolioPage() {
             >
               <Linkedin className="h-5 w-5" />
             </a>
-            {/* GitHub icon link removed */}
+            <a 
+              href="https://github.com/johndoe" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="GitHub Profile"
+              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+            >
+              <Github className="h-5 w-5" />
+            </a>
             <a 
               href="mailto:john.doe@example.com" 
               aria-label="Email John Doe"
@@ -37,10 +47,15 @@ export default function BentoPortfolioPage() {
       
       <main className="flex-grow pt-32"> 
         <HeroSection />
-        {/* Other sections (WorkExperience, Projects, Contact) and Footer remain removed to match the image's initial view */}
+        <WorkExperienceSection />
+        <ProjectsSection />
+        <ContactSection />
       </main>
       
-      {/* Footer remains removed */}
+      <footer className="py-8 text-center text-sm text-muted-foreground">
+        <p>&copy; {new Date().getFullYear()} John Doe. All rights reserved.</p>
+        <p>Built with Next.js, Tailwind CSS, and ShadCN UI.</p>
+      </footer>
     </div>
   );
 }
