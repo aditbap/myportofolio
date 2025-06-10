@@ -7,7 +7,7 @@ const HeroSection: React.FC = () => {
       id="intro"
       className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 text-left min-h-[calc(100vh-7rem)] sm:min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8rem)]"
     >
-      <div className="px-6 pt-48"> {/* Increased pt-44 to pt-48 */}
+      <div className="px-6 pt-56"> {/* Increased pt-48 to pt-56 */}
         <p className="font-jakarta font-extrabold text-2xl sm:text-3xl md:text-4xl text-foreground mb-1 sm:mb-2 animate-fadeInUp">
           i&apos;m adit <span role="img" aria-label="victory hand">✌️</span>
         </p>
