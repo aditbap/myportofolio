@@ -4,16 +4,14 @@ import WorkExperienceSection from '@/components/portfolio/work-experience-sectio
 import ProjectsSection from '@/components/portfolio/projects-section';
 import ContactSection from '@/components/portfolio/contact-section';
 import Link from 'next/link';
-import { Linkedin, Mail } from 'lucide-react'; // Added Linkedin and Mail, removed Menu and Sheet related imports
-
-// Removed navItems constant
+import { Linkedin, Mail } from 'lucide-react';
 
 export default function BentoPortfolioPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl px-4">
         <div className="bg-neutral-800 text-neutral-100 rounded-full shadow-xl px-6 py-3 flex items-center justify-between w-full">
-          <Link href="/" className="font-headline text-base sm:text-lg font-semibold hover:opacity-80 transition-opacity">
+          <Link href="/" className="font-jakarta text-base sm:text-lg font-bold hover:opacity-80 transition-opacity">
             ROCKY CHEN
           </Link>
           
