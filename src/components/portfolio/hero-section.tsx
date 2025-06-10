@@ -9,7 +9,15 @@ const HeroSection: React.FC = () => {
     >
       <div className="px-6 pt-64">
         <p className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUpBack leading-relaxed">
-          i&apos;m adit <span role="img" aria-label="victory hand">✌️</span>
+          i&apos;m adit{' '}
+          <span role="img" aria-label="victory hand" className="inline-block relative group cursor-pointer">
+            <span className="inline-block transition-all duration-300 ease-in-out group-hover:opacity-0 group-hover:-translate-x-full">
+              ✌️
+            </span>
+            <span className="absolute left-0 top-0 inline-block transition-all duration-300 ease-in-out opacity-0 translate-x-full group-hover:opacity-100 group-hover:translate-x-0 group-hover:animate-wobble">
+              Hey!
+            </span>
+          </span>
         </p>
         <p
           className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUp leading-relaxed"
