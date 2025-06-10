@@ -4,13 +4,13 @@ import WorkExperienceSection from '@/components/portfolio/work-experience-sectio
 import ProjectsSection from '@/components/portfolio/projects-section';
 import ContactSection from '@/components/portfolio/contact-section';
 import Link from 'next/link';
-import { Linkedin, Mail, Github } from 'lucide-react'; // Added Github
+import { Linkedin, Mail, Github } from 'lucide-react'; 
 
 export default function BentoPortfolioPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl px-4">
-        <div className="bg-neutral-800 rounded-full shadow-xl px-6 py-3 flex items-center justify-between w-full">
+      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl px-4">
+        <div className="bg-neutral-800 rounded-full shadow-xl px-6 py-4 flex items-center justify-between w-full">
           <Link href="/" className="font-jakarta text-base sm:text-lg text-neutral-400 hover:opacity-80 transition-opacity">
             ROCKY CHEN
           </Link>
@@ -45,7 +45,7 @@ export default function BentoPortfolioPage() {
         </div>
       </header>
       
-      <main className="flex-grow pt-28"> {/* Adjusted padding-top for the new fixed header */}
+      <main className="flex-grow pt-32"> {/* Adjusted padding-top for the new fixed header height */}
         <HeroSection />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <WorkExperienceSection />
