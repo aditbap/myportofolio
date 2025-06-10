@@ -1,67 +1,48 @@
+
 import HeroSection from '@/components/portfolio/hero-section';
 import WorkExperienceSection from '@/components/portfolio/work-experience-section';
-import ProjectsSection from '@/components/portfolio/projects-section'; // Import the new section
+import ProjectsSection from '@/components/portfolio/projects-section';
 import ContactSection from '@/components/portfolio/contact-section';
-import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
+import { Linkedin, Mail } from 'lucide-react'; // Added Linkedin and Mail, removed Menu and Sheet related imports
 
-const navItems = [
-  { href: '#intro', label: 'Intro' },
-  { href: '#work', label: 'Experience' },
-  { href: '#projects', label: 'Projects' }, // Added Projects link
-  { href: '#contact', label: 'Contact' },
-];
+// Removed navItems constant
 
 export default function BentoPortfolioPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md shadow-md">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <Link href="/" className="font-headline text-3xl font-bold text-primary hover:text-accent transition-colors">
-            JD.
+      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl px-4">
+        <div className="bg-neutral-800 text-neutral-100 rounded-full shadow-xl px-6 py-3 flex items-center justify-between w-full">
+          <Link href="/" className="font-headline text-base sm:text-lg font-semibold hover:opacity-80 transition-opacity">
+            ROCKY CHEN
           </Link>
           
-          <nav className="hidden md:flex space-x-2">
-            {navItems.map((item) => (
-              <Button key={item.label} variant="ghost" asChild>
-                <Link href={item.href} className="font-body text-primary hover:text-accent hover:bg-primary/5 px-3 py-2 rounded-md text-sm font-medium">
-                  {item.label}
-                </Link>
-              </Button>
-            ))}
-          </nav>
-
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-primary hover:text-accent">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[250px] bg-background p-6">
-                <nav className="flex flex-col space-y-4 mt-8">
-                  {navItems.map((item) => (
-                     <SheetTrigger key={item.label} asChild>
-                        <Link href={item.href} className="font-body text-lg text-primary hover:text-accent py-2 text-center rounded-md hover:bg-primary/5">
-                        {item.label}
-                        </Link>
-                    </SheetTrigger>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <a 
+              href="https://linkedin.com/in/johndoe" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="LinkedIn Profile" 
+              className="text-neutral-300 hover:text-neutral-100 transition-colors"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
+            <a 
+              href="mailto:john.doe@example.com" 
+              aria-label="Email John Doe"
+              className="text-neutral-300 hover:text-neutral-100 transition-colors"
+            >
+              <Mail className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </header>
       
-      <main className="flex-grow">
+      <main className="flex-grow pt-28"> {/* Adjusted padding-top for the new fixed header */}
         <HeroSection />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <WorkExperienceSection />
-          <ProjectsSection /> {/* Added the Projects section component */}
+          <ProjectsSection />
           <ContactSection />
         </div>
       </main>
