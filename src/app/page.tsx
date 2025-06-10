@@ -1,14 +1,16 @@
 import HeroSection from '@/components/portfolio/hero-section';
 import WorkExperienceSection from '@/components/portfolio/work-experience-section';
+import ProjectsSection from '@/components/portfolio/projects-section'; // Import the new section
 import ContactSection from '@/components/portfolio/contact-section';
-import { Button } from '@/components/ui/button'; // For navigation buttons
-import { Menu } from 'lucide-react'; // For mobile menu icon
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'; // For mobile menu
-import Link from 'next/link'; // For navigation links
+import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import Link from 'next/link';
 
 const navItems = [
   { href: '#intro', label: 'Intro' },
   { href: '#work', label: 'Experience' },
+  { href: '#projects', label: 'Projects' }, // Added Projects link
   { href: '#contact', label: 'Contact' },
 ];
 
@@ -21,7 +23,6 @@ export default function BentoPortfolioPage() {
             JD.
           </Link>
           
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-2">
             {navItems.map((item) => (
               <Button key={item.label} variant="ghost" asChild>
@@ -32,7 +33,6 @@ export default function BentoPortfolioPage() {
             ))}
           </nav>
 
-          {/* Mobile Navigation */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -61,6 +61,7 @@ export default function BentoPortfolioPage() {
         <HeroSection />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <WorkExperienceSection />
+          <ProjectsSection /> {/* Added the Projects section component */}
           <ContactSection />
         </div>
       </main>
