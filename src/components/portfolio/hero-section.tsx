@@ -15,7 +15,13 @@ const HeroSection: React.FC = () => {
           className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-foreground mb-1 sm:mb-2 animate-fadeInUp leading-relaxed"
           style={{ animationDelay: '0.2s' }}
         >
-          student at computer science @scrolldown through prototypes
+          student at computer science
+        </p>
+        <p
+          className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-foreground mb-1 sm:mb-2 animate-fadeInUp leading-relaxed"
+          style={{ animationDelay: '0.4s' }}
+        >
+          @scrolldown through prototypes
         </p>
       </div>
     </section>
