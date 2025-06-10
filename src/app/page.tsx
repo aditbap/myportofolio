@@ -4,7 +4,7 @@ import WorkExperienceSection from '@/components/portfolio/work-experience-sectio
 import ProjectsSection from '@/components/portfolio/projects-section';
 import ContactSection from '@/components/portfolio/contact-section';
 import Link from 'next/link';
-import { Linkedin, Mail } from 'lucide-react';
+import { Linkedin, Mail, Github } from 'lucide-react'; // Added Github
 
 export default function BentoPortfolioPage() {
   return (
@@ -24,6 +24,15 @@ export default function BentoPortfolioPage() {
               className="text-neutral-400 hover:text-neutral-200 transition-colors"
             >
               <Linkedin className="h-5 w-5" />
+            </a>
+            <a 
+              href="https://github.com/johndoe" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="GitHub Profile" 
+              className="text-neutral-400 hover:text-neutral-200 transition-colors"
+            >
+              <Github className="h-5 w-5" />
             </a>
             <a 
               href="mailto:john.doe@example.com" 
