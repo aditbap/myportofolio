@@ -24,20 +24,20 @@ const FooterSection: React.FC = () => {
   // const currentImageSrc = isHovered ? (myAvatarHover || hoverImageSrc) : (myAvatar || defaultImageSrc);
   // Untuk sekarang, kita langsung gunakan placeholder:
   const currentImageSrc = isHovered ? hoverImageSrc : defaultImageSrc;
-  const currentImageHint = isHovered ? "avatar waving" : "avatar memoji";
+  const currentImageHint = isHovered ? "avatar peace" : "avatar memoji";
 
   return (
     <footer className="py-32 md:py-48 text-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Link
           href="mailto:aditbaps@gmail.com"
-          className="inline-block group" // Menggunakan inline-block agar Link tidak mengambil lebar penuh jika tidak perlu
+          className="inline-block group" 
           aria-label="Get in touch via email"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-center"> {/* Flex container untuk gambar dan teks */}
-            <div className="relative mr-3 sm:mr-4"> {/* Kontainer untuk gambar dan emoticon */}
+          <div className="flex items-center"> 
+            <div className="relative mr-3 sm:mr-4"> 
               <Image
                 src={currentImageSrc}
                 alt="Avatar Benediktus Adit"
@@ -49,12 +49,12 @@ const FooterSection: React.FC = () => {
               />
               {isHovered && (
                 <span
-                  className="absolute -top-1 -right-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out scale-100 animate-fadeInUp"
+                  className="absolute -bottom-1 -left-3 text-4xl sm:text-5xl transform transition-all duration-300 ease-out scale-100"
                   role="img"
-                  aria-label="waving hand"
+                  aria-label="victory hand"
                   style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
                 >
-                  👋
+                  ✌️
                 </span>
               )}
             </div>
