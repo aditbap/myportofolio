@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
             <span className="inline-block group-hover:animate-emojiSpinOut">
               ✌️
             </span>
-            <span className="absolute left-0 top-0 inline-block opacity-0 group-hover:animate-textAppearWobble group-hover:delay-[400ms]">
+            <span className="absolute left-0 top-0 inline-block opacity-0 group-hover:animate-textAppearWobble group-hover:delay-[200ms]">
               Hey!
             </span>
           </span>
