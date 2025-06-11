@@ -26,11 +26,11 @@ const HeroSection: React.FC = () => {
         <SplitText
           text="i'm adit ✌️"
           className={commonClassName}
-          delay={30} // Stagger between characters in ms
-          duration={0.5}
-          ease="power2.out"
+          delay={10} // Stagger between characters in ms
+          duration={1.7}
+          ease="elastic.out(1,0.3)"
           splitType="chars"
-          from={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
+          from={{ opacity: 0, y: 40, scale: 0.8, rotateX: -45 }}
           to={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
           textAlign="left"
           onAnimationComplete={handleFirstLineComplete}
@@ -38,11 +38,11 @@ const HeroSection: React.FC = () => {
         <SplitText
           text="student at computer science"
           className={commonClassName}
-          delay={30}
-          duration={0.5}
-          ease="power2.out"
+          delay={10}
+          duration={1.7}
+          ease="elastic.out(1,0.3)"
           splitType="chars"
-          from={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
+          from={{ opacity: 0, y: 40, scale: 0.8, rotateX: -45 }}
           to={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
           textAlign="left"
           rootMargin="-150px" // Trigger a bit later
@@ -51,11 +51,11 @@ const HeroSection: React.FC = () => {
         <SplitText
           text="@scrolldown through prototypes"
           className={commonClassName}
-          delay={30}
-          duration={0.5}
-          ease="power2.out"
+          delay={10}
+          duration={1.7}
+          ease="elastic.out(1,0.3)"
           splitType="chars"
-          from={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
+          from={{ opacity: 0, y: 40, scale: 0.8, rotateX: -45 }}
           to={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
           textAlign="left"
           rootMargin="-200px" // Trigger even later
