@@ -107,6 +107,23 @@ export default {
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
+        emojiSpinOut: {
+          '0%': { transform: 'rotateX(0deg) rotateY(0deg) scale(1)', opacity: '1' },
+          '25%': { transform: 'rotateX(360deg) rotateY(0deg) scale(1)', opacity: '1' },
+          '50%': { transform: 'rotateX(360deg) rotateY(360deg) scale(1)', opacity: '1' },
+          '100%': { transform: 'rotateX(360deg) rotateY(360deg) scale(0)', opacity: '0' },
+        },
+        textAppearWobble: {
+          '0%': { opacity: '0', transform: 'scale(0.8) translateX(0%) rotate(0deg)' },
+          '20%': { opacity: '1', transform: 'scale(1) translateX(0%) rotate(0deg)' },
+          '29%': { transform: 'scale(1) translateX(-6px) rotate(-4deg)' },
+          '38%': { transform: 'scale(1) translateX(5px) rotate(3deg)' },
+          '47%': { transform: 'scale(1) translateX(-4px) rotate(-2deg)' },
+          '56%': { transform: 'scale(1) translateX(3px) rotate(1deg)' },
+          '65%': { transform: 'scale(1) translateX(-2px) rotate(0deg)' },
+          '80%': { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -114,6 +131,8 @@ export default {
         'fadeInUp': 'fadeInUp 0.5s ease-out forwards',
         'fadeInUpBack': 'fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
         'wobble': 'wobble 0.8s ease-in-out',
+        'emojiSpinOut': 'emojiSpinOut 1s ease-in-out forwards',
+        'textAppearWobble': 'textAppearWobble 0.8s ease-in-out forwards',
       },
     },
   },
