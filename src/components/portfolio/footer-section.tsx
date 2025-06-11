@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+
 // Baris berikut untuk mengimpor gambar lokal Anda.
 // 1. Buat direktori src/components/image/
 // 2. Taruh gambar Anda di sana, misalnya my-avatar.png
@@ -9,13 +10,12 @@ import Link from 'next/link';
 // import myAvatar from '@/components/image/my-avatar.png';
 // Jika file belum ada, Next.js akan error saat build.
 // Untuk contoh ini, kita tetap menggunakan placeholder, tapi Anda akan menggantinya dengan import nyata:
-// import myAvatar from '@/components/image/my-avatar.png'; // Pastikan gambar ini ada di path tersebut
+const imageSource = "https://placehold.co/80x80.png"; // Atau ganti dengan: myAvatar jika sudah diimpor
 
 const FooterSection: React.FC = () => {
   // Ganti baris berikut dengan: src={myAvatar} setelah Anda menambahkan gambar dan mengimpornya.
   // const imageSource = myAvatar;
   // Untuk sementara, kita gunakan placeholder agar aplikasi tidak error:
-  const imageSource = "https://placehold.co/56x56.png"; 
 
   return (
     <footer className="py-32 md:py-48 text-center">
@@ -28,8 +28,8 @@ const FooterSection: React.FC = () => {
           <Image
             src={imageSource} // Jika menggunakan gambar lokal: src={myAvatar}
             alt="Avatar Benediktus Adit" // Sesuaikan alt text jika mengganti gambar
-            width={56}
-            height={56}
+            width={80}
+            height={80}
             className="rounded-full mr-3 sm:mr-4 transform transition-transform duration-300 ease-in-out group-hover:scale-110"
             data-ai-hint="avatar memoji" // Sesuaikan jika mengganti gambar
             priority 
