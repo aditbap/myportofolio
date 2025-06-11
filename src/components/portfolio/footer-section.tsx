@@ -1,5 +1,5 @@
 // src/components/portfolio/footer-section.tsx
-'use client'; 
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ import { useState } from 'react';
 // Jika file belum ada, Next.js akan error saat build.
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
-const defaultImageSrc = "https://placehold.co/100x100.png"; 
+const defaultImageSrc = "https://placehold.co/100x100.png";
 const hoverImageSrc = "https://placehold.co/100x100.png"; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
 
 const FooterSection: React.FC = () => {
@@ -41,20 +41,20 @@ const FooterSection: React.FC = () => {
               <Image
                 src={currentImageSrc}
                 alt="Avatar Benediktus Adit"
-                width={100} 
-                height={100} 
+                width={100}
+                height={100}
                 className="rounded-full transform transition-transform duration-300 ease-in-out group-hover:scale-110"
                 data-ai-hint={currentImageHint}
-                priority 
+                priority
               />
               {isHovered && (
                 <span
-                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out scale-100 -rotate-6" // Ukuran lebih kecil dan rotasi kiri
+                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out scale-100 -rotate-6"
                   role="img"
                   aria-label="victory hand"
-                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }} 
+                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
                 >
-                  ✌🏼
+                  ✌🏻
                 </span>
               )}
             </div>
