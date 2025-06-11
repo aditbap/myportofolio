@@ -1,6 +1,7 @@
 
 import HeroSection from '@/components/portfolio/hero-section';
 import FooterSection from '@/components/portfolio/footer-section';
+import ProjectsSection from '@/components/portfolio/projects-section'; // Added import
 import Link from 'next/link';
 import { Linkedin, Mail } from 'lucide-react'; 
 
@@ -36,7 +37,8 @@ export default function BentoPortfolioPage() {
       
       <main className="flex-grow pt-28 sm:pt-32 md:pt-32"> {/* Adjusted top padding */}
         <HeroSection />
-        {/* You can add other sections like ProjectsSection, WorkExperienceSection etc. here */}
+        <ProjectsSection /> {/* Added ProjectsSection */}
+        {/* You can add other sections like WorkExperienceSection etc. here */}
       </main>
       
       <FooterSection />
