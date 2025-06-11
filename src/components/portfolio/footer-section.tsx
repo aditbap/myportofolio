@@ -9,13 +9,13 @@ import { useState } from 'react';
 // 1. Buat direktori src/components/image/
 // 2. Taruh gambar Anda di sana, misalnya my-avatar.png dan my-avatar-hover.png
 // 3. Hapus komentar pada baris di bawah ini dan pastikan pathnya benar.
-// import myAvatar from '@/components/image/my-avatar.png';
-// import myAvatarHover from '@/components/image/my-avatar-hover.png';
+import myAvatar from '@/components/image/my-avatar.png';
+import myAvatarHover from '@/components/image/my-avatar-hover.png';
 // Jika file belum ada, Next.js akan error saat build.
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
-const defaultImageSrc = "https://placehold.co/100x100.png";
-const hoverImageSrc = "https://placehold.co/100x100.png/8E44AD/FFFFFF"; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
+const defaultImageSrc = myAvatar;
+const hoverImageSrc = myAvatarHover; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
 
 const FooterSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -37,8 +37,8 @@ const FooterSection: React.FC = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-center"> {/* Kembali ke items-center */}
-            <div className="relative mr-3 sm:mr-4"> {/* Kontainer relatif untuk emoticon */}
+          <div className="flex items-center justify-center mt-[-5px]"> {/* Added negative top margin */}
+            <div className="relative mr-3 sm:mr-1"> {/* Kontainer relatif untuk emoticon */}
               <Image
                 src={currentImageSrc}
                 alt="Avatar Benediktus Adit"
@@ -50,7 +50,7 @@ const FooterSection: React.FC = () => {
               />
               {isHovered && (
                 <span
-                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-6"
+                  className="absolute bottom-4 left-0 text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-12"
                   role="img"
                   aria-label="victory hand"
                   style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
@@ -59,9 +59,11 @@ const FooterSection: React.FC = () => {
                 </span>
               )}
             </div>
-            <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-4xl text-primary-foreground group-hover:opacity-80 transition-opacity">
-              get in touch
-            </span>
+            <div style={{ marginTop: '-20px' }}> {/* Wrap text in a div */}
+              <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8] group-hover:opacity-90 transition-opacity">
+                get in touch
+              </span>
+            </div>
           </div>
         </Link>
       </div>
