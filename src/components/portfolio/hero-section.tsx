@@ -1,10 +1,61 @@
 // src/components/portfolio/hero-section.tsx
 "use client";
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const emojiControls = useAnimation();
+  const textControls = useAnimation();
+
+  useEffect(() => {
+    if (isHovered) {
+      // Step 1: Emoji animates
+      emojiControls.start({
+        y: [-20, 0], // Adjusted to animate from slightly above to current position
+        x: [0, 10],   // Slight move to the right
+        rotate: [0, 15, -5, 0], // Adjusted rotation
+        transition: {
+          duration: 0.5,
+          ease: "easeOut",
+        },
+      }).then(() => {
+        // Step 2: Text "Hey!" fades and slides in
+        textControls.start({
+          y: [10, 0],
+          opacity: [0, 1],
+          transition: {
+            duration: 0.4,
+            ease: "easeOut",
+            delay: 0.1, // Slight delay for text to appear after emoji's initial move
+          },
+        });
+
+        // Step 3: Wobble emoji (concurrently or slightly after text appears)
+        emojiControls.start({
+          rotate: [0, -8, 8, -5, 5, -2, 2, 0],
+          transition: {
+            duration: 0.5,
+            ease: "easeInOut",
+            delay: 0.2, // Delay wobble slightly
+          },
+        });
+      });
+    } else {
+      // Reset state if not hovered
+      emojiControls.start({ 
+        x: 0, 
+        y: 0, 
+        rotate: 0,
+        transition: { duration: 0.3, ease: "easeOut" }
+      });
+      textControls.start({ 
+        opacity: 0, 
+        y: 10,
+        transition: { duration: 0.2, ease: "easeOut" }
+      });
+    }
+  }, [isHovered, emojiControls, textControls]);
 
   return (
     <section
@@ -15,36 +66,22 @@ const HeroSection: React.FC = () => {
         <div className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUpBack leading-relaxed">
           i&apos;m adit{' '}
           <div
-            className="inline-block relative cursor-pointer align-middle" // Added align-middle for better baseline
+            className="inline-block relative cursor-pointer align-middle"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <motion.span
               aria-label="victory hand"
               className="inline-block"
-              initial={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
-              animate={
-                isHovered
-                  ? { opacity: 0, x: 25, y: 25, rotate: 20, scale: 0.5 }
-                  : { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
-              }
-              transition={{ type: "spring", stiffness: 200, damping: 15, duration: 0.3 }}
+              animate={emojiControls}
+              initial={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
             >
               ✌️
             </motion.span>
             <motion.span
-              className="absolute left-0 top-0 inline-block" // Positioned over the emoji spot
-              initial={{ opacity: 0, x: 0, y: 0, scale: 0.8 }}
-              animate={
-                isHovered
-                  ? { opacity: 1, x: 0, y: 0, scale: [1, 1.05, 0.98, 1.02, 1], rotate: [0, 2, -2, 1, 0] }
-                  : { opacity: 0, x: 0, y: 0, scale: 0.8 }
-              }
-              transition={{
-                duration: 0.6,
-                delay: isHovered ? 0.15 : 0, 
-                ease: "easeInOut",
-              }}
+              className="absolute left-full top-1/2 -translate-y-1/2 ml-1 inline-block whitespace-nowrap" // Positioned to the right of the emoji
+              animate={textControls}
+              initial={{ opacity: 0, y: 10 }} // Starts slightly below and invisible
             >
               Hey!
             </motion.span>
