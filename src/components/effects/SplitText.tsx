@@ -139,7 +139,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   return (
     <p
       ref={ref}
-      className={`split-parent overflow-hidden ${className}`} // Removed inline-block, whitespace-normal
+      className={`split-parent ${className}`} // Removed overflow-hidden
       style={{
         textAlign,
         // wordWrap: "break-word", // This can be handled by Tailwind's `break-words` if needed
