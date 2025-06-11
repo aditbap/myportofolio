@@ -10,7 +10,7 @@ import { useState } from 'react';
 // 2. Taruh gambar Anda di sana, misalnya my-avatar.png dan my-avatar-hover.png
 // 3. Hapus komentar pada baris di bawah ini dan pastikan pathnya benar.
 // import myAvatar from '@/components/image/my-avatar.png';
-// import myAvatarHover from '@/components/image/my-avatar-hover.png'; 
+// import myAvatarHover from '@/components/image/my-avatar-hover.png';
 // Jika file belum ada, Next.js akan error saat build.
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
@@ -31,7 +31,7 @@ const FooterSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Link
           href="mailto:aditbaps@gmail.com"
-          className="inline-block group" 
+          className="inline-block group" // Mengubah menjadi inline-block dan group untuk hover effect
           aria-label="Get in touch via email"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -49,12 +49,12 @@ const FooterSection: React.FC = () => {
               />
               {isHovered && (
                 <span
-                  className="absolute bottom-1 left-1 text-4xl sm:text-5xl transform transition-all duration-300 ease-out scale-100"
+                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out scale-100 -rotate-6" // Ukuran lebih kecil dan rotasi kiri
                   role="img"
                   aria-label="victory hand"
                   style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }} 
                 >
-                  ✌️
+                  ✌🏼
                 </span>
               )}
             </div>
