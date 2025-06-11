@@ -109,12 +109,12 @@ export default {
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
         jellySlideIn: {
-          '0%': { opacity: '0', transform: 'translateX(100px) scaleX(0.5)' }, // Changed -100px to 100px
+          '0%': { opacity: '0', transform: 'translateX(-100px) scaleX(0.5)' },
           '50%': { opacity: '1', transform: 'translateX(0px) scaleX(1)' },
-          '60%': { transform: 'translateX(-15px) scaleX(1.2) scaleY(0.8)' }, // Changed 15px to -15px
-          '70%': { transform: 'translateX(10px) scaleX(0.8) scaleY(1.2)' },  // Changed -10px to 10px
-          '80%': { transform: 'translateX(-5px) scaleX(1.1) scaleY(0.9)' },  // Changed 5px to -5px
-          '90%': { transform: 'translateX(2px) scaleX(0.95) scaleY(1.05)' },   // Changed -2px to 2px
+          '60%': { transform: 'translateX(15px) scaleX(1.2) scaleY(0.8)' },
+          '70%': { transform: 'translateX(-10px) scaleX(0.8) scaleY(1.2)' },
+          '80%': { transform: 'translateX(5px) scaleX(1.1) scaleY(0.9)' },
+          '90%': { transform: 'translateX(-2px) scaleX(0.95) scaleY(1.05)' },
           '100%': { opacity: '1', transform: 'translateX(0px) scaleX(1) scaleY(1)' },
         },
       },
