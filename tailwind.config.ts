@@ -100,22 +100,13 @@ export default {
             transform: 'translateY(0)',
           },
         },
-        wobble: { // This can be kept if used elsewhere, or removed if not.
+        wobble: { 
           '0%, 100%': { transform: 'translateX(0%) rotate(0deg)' },
           '15%': { transform: 'translateX(-6px) rotate(-4deg)' },
           '30%': { transform: 'translateX(5px) rotate(3deg)' },
           '45%': { transform: 'translateX(-4px) rotate(-2deg)' },
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
-        },
-        jellySlideIn: {
-          '0%': { opacity: '0', transform: 'translateX(-100px) scaleX(0.5)' },
-          '50%': { opacity: '1', transform: 'translateX(0px) scaleX(1)' },
-          '60%': { transform: 'translateX(15px) scaleX(1.2) scaleY(0.8)' },
-          '70%': { transform: 'translateX(-10px) scaleX(0.8) scaleY(1.2)' },
-          '80%': { transform: 'translateX(5px) scaleX(1.1) scaleY(0.9)' },
-          '90%': { transform: 'translateX(-2px) scaleX(0.95) scaleY(1.05)' },
-          '100%': { opacity: '1', transform: 'translateX(0px) scaleX(1) scaleY(1)' },
         },
       },
       animation: {
@@ -124,7 +115,6 @@ export default {
         'fadeInUp': 'fadeInUp 0.5s ease-out forwards',
         'fadeInUpBack': 'fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
         'wobble': 'wobble 0.8s ease-in-out', 
-        'jelly-slide-in': 'jellySlideIn 1s ease-out forwards',
       },
     },
   },
