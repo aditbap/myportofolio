@@ -14,8 +14,8 @@ import { useState } from 'react';
 // Jika file belum ada, Next.js akan error saat build.
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
-const defaultImageSrc = "https://placehold.co/80x80.png"; 
-const hoverImageSrc = "https://placehold.co/80x80.png/E8117F/000000?text=Hover!&font=Montserrat"; // Placeholder berbeda untuk hover
+const defaultImageSrc = "https://placehold.co/100x100.png"; 
+const hoverImageSrc = "https://placehold.co/100x100.png"; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
 
 const FooterSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -41,18 +41,18 @@ const FooterSection: React.FC = () => {
               <Image
                 src={currentImageSrc}
                 alt="Avatar Benediktus Adit"
-                width={100} // Diubah dari 80
-                height={100} // Diubah dari 80
+                width={100} 
+                height={100} 
                 className="rounded-full transform transition-transform duration-300 ease-in-out group-hover:scale-110"
                 data-ai-hint={currentImageHint}
                 priority 
               />
               {isHovered && (
                 <span
-                  className="absolute -bottom-1 -left-3 text-4xl sm:text-5xl transform transition-all duration-300 ease-out scale-100"
+                  className="absolute bottom-1 left-1 text-4xl sm:text-5xl transform transition-all duration-300 ease-out scale-100"
                   role="img"
                   aria-label="victory hand"
-                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }} // Tambahkan sedikit shadow agar lebih stand out
+                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }} 
                 >
                   ✌️
                 </span>
