@@ -1,7 +1,11 @@
 // src/components/portfolio/hero-section.tsx
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <section
       id="intro"
@@ -10,14 +14,41 @@ const HeroSection: React.FC = () => {
       <div className="px-6 pt-64">
         <p className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUpBack leading-relaxed">
           i&apos;m adit{' '}
-          <span role="img" aria-label="victory hand" className="inline-block relative group cursor-pointer">
-            <span className="inline-block group-hover:animate-emojiSpinOut">
+          <div
+            className="inline-block relative cursor-pointer align-middle" // Added align-middle for better baseline
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <motion.span
+              aria-label="victory hand"
+              className="inline-block"
+              initial={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
+              animate={
+                isHovered
+                  ? { opacity: 0, x: 25, y: 25, rotate: 20, scale: 0.5 }
+                  : { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
+              }
+              transition={{ type: "spring", stiffness: 200, damping: 15, duration: 0.3 }}
+            >
               ✌️
-            </span>
-            <span className="absolute left-0 top-0 inline-block opacity-0 group-hover:animate-textAppearWobble group-hover:delay-[200ms]">
+            </motion.span>
+            <motion.span
+              className="absolute left-0 top-0 inline-block" // Positioned over the emoji spot
+              initial={{ opacity: 0, x: 0, y: 0, scale: 0.8 }}
+              animate={
+                isHovered
+                  ? { opacity: 1, x: 0, y: 0, scale: [1, 1.05, 0.98, 1.02, 1], rotate: [0, 2, -2, 1, 0] }
+                  : { opacity: 0, x: 0, y: 0, scale: 0.8 }
+              }
+              transition={{
+                duration: 0.6,
+                delay: isHovered ? 0.15 : 0, 
+                ease: "easeInOut",
+              }}
+            >
               Hey!
-            </span>
-          </span>
+            </motion.span>
+          </div>
         </p>
         <p
           className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUp leading-relaxed"

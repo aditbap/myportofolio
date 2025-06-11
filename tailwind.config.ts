@@ -100,7 +100,7 @@ export default {
             transform: 'translateY(0)',
           },
         },
-        wobble: { 
+        wobble: { // This can be kept if used elsewhere, or removed if not.
           '0%, 100%': { transform: 'translateX(0%) rotate(0deg)' },
           '15%': { transform: 'translateX(-6px) rotate(-4deg)' },
           '30%': { transform: 'translateX(5px) rotate(3deg)' },
@@ -108,21 +108,6 @@ export default {
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
-        emojiSpinOut: {
-          '0%':   { transform: 'translate(0, 0) rotate(0deg) scale(1)', opacity: '1' },
-          '50%':  { transform: 'translate(25px, 25px) rotate(20deg) scale(1.1)', opacity: '1' },
-          '100%': { transform: 'translate(30px, 30px) rotate(25deg) scale(0)', opacity: '0' },
-        },
-        textAppearWobble: {
-          '0%':   { opacity: '0', transform: 'scale(0.8) translateX(0%) rotate(0deg)' },
-          '20%':  { opacity: '1', transform: 'scale(1) translateX(0%) rotate(0deg)' },
-          '29%':  { opacity: '1', transform: 'scale(1) translateX(-6px) rotate(-4deg)' },
-          '38%':  { opacity: '1', transform: 'scale(1) translateX(5px) rotate(3deg)' },
-          '47%':  { opacity: '1', transform: 'scale(1) translateX(-4px) rotate(-2deg)' },
-          '60%':  { opacity: '1', transform: 'scale(1) translateX(3px) rotate(1deg)' },
-          '75%':  { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' },
-          '100%': { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' }
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -130,8 +115,6 @@ export default {
         'fadeInUp': 'fadeInUp 0.5s ease-out forwards',
         'fadeInUpBack': 'fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
         'wobble': 'wobble 0.8s ease-in-out', 
-        'emojiSpinOut': 'emojiSpinOut 0.5s ease-in-out forwards',
-        'textAppearWobble': 'textAppearWobble 0.8s ease-in-out forwards',
       },
     },
   },
