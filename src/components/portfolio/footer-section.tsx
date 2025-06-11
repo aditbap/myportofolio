@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
 const defaultImageSrc = "https://placehold.co/100x100.png";
-const hoverImageSrc = "https://placehold.co/100x100.png"; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
+const hoverImageSrc = "https://placehold.co/100x100.png/8E44AD/FFFFFF"; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
 
 const FooterSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -25,6 +25,7 @@ const FooterSection: React.FC = () => {
   // Untuk sekarang, kita langsung gunakan placeholder:
   const currentImageSrc = isHovered ? hoverImageSrc : defaultImageSrc;
   const currentImageHint = isHovered ? "avatar hover" : "avatar memoji";
+
 
   return (
     <footer className="py-32 md:py-48 text-center">
@@ -36,7 +37,7 @@ const FooterSection: React.FC = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-center"> {/* Container untuk gambar dan teks agar bisa disejajarkan */}
+          <div className="flex items-start"> {/* Container untuk gambar dan teks, diubah ke items-start */}
             <div className="relative mr-3 sm:mr-4"> {/* Kontainer relatif untuk emoticon */}
               <Image
                 src={currentImageSrc}
@@ -49,7 +50,7 @@ const FooterSection: React.FC = () => {
               />
               {isHovered && (
                 <span
-                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out scale-100 -rotate-6"
+                  className="absolute bottom-1 left-1 text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-6"
                   role="img"
                   aria-label="victory hand"
                   style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
@@ -58,7 +59,7 @@ const FooterSection: React.FC = () => {
                 </span>
               )}
             </div>
-            <span className="font-jakarta font-bold text-3xl sm:text-4xl md:text-5xl text-primary-foreground group-hover:opacity-80 transition-opacity">
+            <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-4xl text-primary-foreground group-hover:opacity-80 transition-opacity">
               get in touch
             </span>
           </div>
