@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -107,11 +108,10 @@ export default {
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
-        emojiSpinOut: {
-          '0%': { transform: 'rotateX(0deg) rotateY(0deg) scale(1)', opacity: '1' },
-          '25%': { transform: 'rotateX(360deg) rotateY(0deg) scale(1)', opacity: '1' },
-          '50%': { transform: 'rotateX(360deg) rotateY(360deg) scale(1)', opacity: '1' },
-          '100%': { transform: 'rotateX(360deg) rotateY(360deg) scale(0)', opacity: '0' },
+        emojiSpinOut: { // Renamed conceptually, but keeping the name for simplicity of change
+          '0%': { transform: 'translate(0, 0) rotate(0deg) scale(1)', opacity: '1' },
+          '50%': { transform: 'translate(20px, 20px) rotate(15deg) scale(1.1)', opacity: '1' }, // Moves down (Y positive) and right (X positive), rotates, scales up slightly
+          '100%': { transform: 'translate(25px, 25px) rotate(25deg) scale(0)', opacity: '0' }, // Continues a bit further, rotates more, and scales/fades out
         },
         textAppearWobble: {
           '0%': { opacity: '0', transform: 'scale(0.8) translateX(0%) rotate(0deg)' },
