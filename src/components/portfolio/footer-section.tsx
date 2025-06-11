@@ -18,7 +18,7 @@ const FooterSection: React.FC = () => {
   const imageSource = "https://placehold.co/56x56.png"; 
 
   return (
-    <footer className="py-16 md:py-20 text-center">
+    <footer className="py-32 md:py-48 text-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
         <Link
           href="mailto:aditbaps@gmail.com"
