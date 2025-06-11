@@ -100,7 +100,7 @@ export default {
             transform: 'translateY(0)',
           },
         },
-        wobble: {
+        wobble: { // This base wobble is part of textAppearWobble now.
           '0%, 100%': { transform: 'translateX(0%) rotate(0deg)' },
           '15%': { transform: 'translateX(-6px) rotate(-4deg)' },
           '30%': { transform: 'translateX(5px) rotate(3deg)' },
@@ -108,20 +108,20 @@ export default {
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
-        emojiSpinOut: { // Renamed conceptually, but keeping the name for simplicity of change
-          '0%': { transform: 'translate(0, 0) rotate(0deg) scale(1)', opacity: '1' },
-          '50%': { transform: 'translate(20px, 20px) rotate(15deg) scale(1.1)', opacity: '1' }, // Moves down (Y positive) and right (X positive), rotates, scales up slightly
-          '100%': { transform: 'translate(25px, 25px) rotate(25deg) scale(0)', opacity: '0' }, // Continues a bit further, rotates more, and scales/fades out
+        emojiSpinOut: {
+          '0%':   { transform: 'translate(0, 0) rotate(0deg) scale(1)', opacity: '1' },
+          '40%':  { transform: 'translate(20px, 20px) rotate(15deg) scale(1)', opacity: '1' },
+          '60%':  { transform: 'translate(22px, 22px) rotate(18deg) scale(1)', opacity: '1' },
+          '100%': { transform: 'translate(25px, 25px) rotate(25deg) scale(0)', opacity: '0' },
         },
         textAppearWobble: {
-          '0%': { opacity: '0', transform: 'scale(0.8) translateX(0%) rotate(0deg)' },
-          '20%': { opacity: '1', transform: 'scale(1) translateX(0%) rotate(0deg)' },
-          '29%': { transform: 'scale(1) translateX(-6px) rotate(-4deg)' },
-          '38%': { transform: 'scale(1) translateX(5px) rotate(3deg)' },
-          '47%': { transform: 'scale(1) translateX(-4px) rotate(-2deg)' },
-          '56%': { transform: 'scale(1) translateX(3px) rotate(1deg)' },
-          '65%': { transform: 'scale(1) translateX(-2px) rotate(0deg)' },
-          '80%': { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' },
+          '0%':   { opacity: '0', transform: 'scale(0.8) translateX(0%) rotate(0deg)' },
+          '20%':  { opacity: '1', transform: 'scale(1) translateX(0%) rotate(0deg)' },
+          '29%':  { opacity: '1', transform: 'scale(1) translateX(-6px) rotate(-4deg)' },
+          '38%':  { opacity: '1', transform: 'scale(1) translateX(5px) rotate(3deg)' },
+          '47%':  { opacity: '1', transform: 'scale(1) translateX(-4px) rotate(-2deg)' },
+          '60%':  { opacity: '1', transform: 'scale(1) translateX(3px) rotate(1deg)' },
+          '75%':  { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' },
           '100%': { opacity: '1', transform: 'scale(1) translateX(-2px) rotate(0deg)' }
         }
       },
@@ -130,7 +130,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fadeInUp': 'fadeInUp 0.5s ease-out forwards',
         'fadeInUpBack': 'fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-        'wobble': 'wobble 0.8s ease-in-out',
+        'wobble': 'wobble 0.8s ease-in-out', // Base wobble, if used standalone
         'emojiSpinOut': 'emojiSpinOut 1s ease-in-out forwards',
         'textAppearWobble': 'textAppearWobble 0.8s ease-in-out forwards',
       },
