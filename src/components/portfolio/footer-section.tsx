@@ -37,7 +37,7 @@ const FooterSection: React.FC = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-start"> {/* Container untuk gambar dan teks, diubah ke items-start */}
+          <div className="flex items-center"> {/* Kembali ke items-center */}
             <div className="relative mr-3 sm:mr-4"> {/* Kontainer relatif untuk emoticon */}
               <Image
                 src={currentImageSrc}
