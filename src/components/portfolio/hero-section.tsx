@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
       className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 text-left min-h-[calc(100vh-7rem)] sm:min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8rem)]"
     >
       <div className="px-6 pt-64">
-        <p className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUpBack leading-relaxed">
+        <div className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUpBack leading-relaxed">
           i&apos;m adit{' '}
           <div
             className="inline-block relative cursor-pointer align-middle" // Added align-middle for better baseline
@@ -49,7 +49,7 @@ const HeroSection: React.FC = () => {
               Hey!
             </motion.span>
           </div>
-        </p>
+        </div>
         <p
           className="font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] mb-1 sm:mb-2 animate-fadeInUp leading-relaxed"
           style={{ animationDelay: '0.2s' }}
