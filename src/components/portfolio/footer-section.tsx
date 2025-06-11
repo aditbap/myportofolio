@@ -1,5 +1,5 @@
 // src/components/portfolio/footer-section.tsx
-'use client'; // Diperlukan karena kita akan menggunakan useState
+'use client'; 
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,12 +10,12 @@ import { useState } from 'react';
 // 2. Taruh gambar Anda di sana, misalnya my-avatar.png dan my-avatar-hover.png
 // 3. Hapus komentar pada baris di bawah ini dan pastikan pathnya benar.
 // import myAvatar from '@/components/image/my-avatar.png';
-// import myAvatarHover from '@/components/image/my-avatar-hover.png';
+// import myAvatarHover from '@/components/image/my-avatar-hover.png'; 
 // Jika file belum ada, Next.js akan error saat build.
 
 // Untuk contoh ini, kita tetap menggunakan placeholder:
-const defaultImageSrc = "https://placehold.co/80x80.png";
-const hoverImageSrc = "https://placehold.co/80x80/E8D5C4/3E3232.png"; // Placeholder berbeda untuk hover
+const defaultImageSrc = "https://placehold.co/80x80.png"; 
+const hoverImageSrc = "https://placehold.co/80x80.png/E8117F/000000?text=Hover!&font=Montserrat"; // Placeholder berbeda untuk hover
 
 const FooterSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -24,7 +24,7 @@ const FooterSection: React.FC = () => {
   // const currentImageSrc = isHovered ? (myAvatarHover || hoverImageSrc) : (myAvatar || defaultImageSrc);
   // Untuk sekarang, kita langsung gunakan placeholder:
   const currentImageSrc = isHovered ? hoverImageSrc : defaultImageSrc;
-  const currentImageHint = isHovered ? "avatar peace" : "avatar memoji";
+  const currentImageHint = isHovered ? "avatar hover" : "avatar memoji";
 
   return (
     <footer className="py-32 md:py-48 text-center">
@@ -36,13 +36,13 @@ const FooterSection: React.FC = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-center"> 
-            <div className="relative mr-3 sm:mr-4"> 
+          <div className="flex items-center"> {/* Container untuk gambar dan teks agar bisa disejajarkan */}
+            <div className="relative mr-3 sm:mr-4"> {/* Kontainer relatif untuk emoticon */}
               <Image
                 src={currentImageSrc}
                 alt="Avatar Benediktus Adit"
-                width={80}
-                height={80}
+                width={100} // Diubah dari 80
+                height={100} // Diubah dari 80
                 className="rounded-full transform transition-transform duration-300 ease-in-out group-hover:scale-110"
                 data-ai-hint={currentImageHint}
                 priority 
@@ -52,7 +52,7 @@ const FooterSection: React.FC = () => {
                   className="absolute -bottom-1 -left-3 text-4xl sm:text-5xl transform transition-all duration-300 ease-out scale-100"
                   role="img"
                   aria-label="victory hand"
-                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
+                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }} // Tambahkan sedikit shadow agar lebih stand out
                 >
                   ✌️
                 </span>
