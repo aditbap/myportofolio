@@ -1,5 +1,6 @@
 
 import HeroSection from '@/components/portfolio/hero-section';
+import FooterSection from '@/components/portfolio/footer-section';
 import Link from 'next/link';
 import { Linkedin, Mail } from 'lucide-react'; 
 
@@ -24,7 +25,7 @@ export default function BentoPortfolioPage() {
             </a>
             <a 
               href="mailto:aditbaps@gmail.com" 
-              aria-label="Email John Doe"
+              aria-label="Email Benediktus Adit"
               className="text-neutral-500 hover:text-neutral-300 transition-colors"
             >
               <Mail className="h-5 w-5" />
@@ -35,9 +36,10 @@ export default function BentoPortfolioPage() {
       
       <main className="flex-grow pt-28 sm:pt-32 md:pt-32"> {/* Adjusted top padding */}
         <HeroSection />
+        {/* You can add other sections like ProjectsSection, WorkExperienceSection etc. here */}
       </main>
       
-      {/* Footer and other sections removed as per the image focusing on hero */}
+      <FooterSection />
     </div>
   );
 }
