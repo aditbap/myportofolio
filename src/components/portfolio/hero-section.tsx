@@ -1,4 +1,3 @@
-
 // src/components/portfolio/hero-section.tsx
 'use client';
 
@@ -18,20 +17,24 @@ const HeroSection: React.FC = () => {
 
   const commonSplitTextFrom = { opacity: 0, y: 30, scale: 0.8, rotateX: -45 };
   const commonSplitTextTo = { opacity: 1, y: 0, scale: 1, rotateX: 0 };
-  const commonSplitTextDuration = 0.5;
+  const commonSplitTextDuration = 0.3; // Adjusted for faster out animation previously
   const commonSplitTextEase = "power2.out";
+
+  const firstLineDelay = 30;
+  const secondLineDelay = 20;
+  const thirdLineDelay = 15;
 
   useEffect(() => {
     let emojiScrollTrigger: ScrollTrigger | undefined;
 
     if (firstLineContainerRef.current && emojiRef.current) {
-      gsap.set(emojiRef.current, commonSplitTextFrom); // Set initial state for animation consistency
+      gsap.set(emojiRef.current, commonSplitTextFrom); 
 
       emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom", 
-        end: "bottom top", // So onLeave and onEnterBack trigger correctly
-        // markers: true, // for debugging
+        start: "top bottom-=-50px", // Adjusted: Trigger sooner (higher)
+        end: "bottom top+=-50px",   // Adjusted: Keep zone relative but shifted
+        // markers: true, 
         onEnter: () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextTo,
@@ -39,21 +42,21 @@ const HeroSection: React.FC = () => {
             ease: commonSplitTextEase,
           });
         },
-        onLeave: () => { // When scrolling down, element leaves viewport top
+        onLeave: () => { 
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "power2.in",
+            ease: "power2.in", // Can use a different ease for out if desired
           });
         },
-        onEnterBack: () => { // When scrolling up, element re-enters viewport top
+        onEnterBack: () => { 
            gsap.to(emojiRef.current, {
             ...commonSplitTextTo,
             duration: commonSplitTextDuration,
             ease: commonSplitTextEase,
           });
         },
-        onLeaveBack: () => { // When scrolling up, element leaves viewport bottom
+        onLeaveBack: () => { 
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
@@ -92,13 +95,14 @@ const HeroSection: React.FC = () => {
           <SplitText
             text="i'm adit "
             className={textStyle} 
-            delay={30}
+            delay={firstLineDelay}
             duration={commonSplitTextDuration}
             ease={commonSplitTextEase}
             splitType="chars"
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
+            rootMargin="-50px" // Adjusted: Trigger sooner (higher)
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -111,14 +115,14 @@ const HeroSection: React.FC = () => {
           <SplitText
             text="student at computer science"
             className={textStyle}
-            delay={30}
+            delay={secondLineDelay}
             duration={commonSplitTextDuration}
             ease={commonSplitTextEase}
             splitType="chars"
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-150px" 
+            rootMargin="-200px" // Adjusted: Trigger sooner (higher)
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -128,14 +132,14 @@ const HeroSection: React.FC = () => {
           <SplitText
             text="@scrolldown through prototypes"
             className={textStyle}
-            delay={30}
+            delay={thirdLineDelay}
             duration={commonSplitTextDuration}
             ease={commonSplitTextEase}
             splitType="chars"
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-200px" 
+            rootMargin="-250px" // Adjusted: Trigger sooner (higher)
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>
