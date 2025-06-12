@@ -2,16 +2,16 @@
 // src/components/portfolio/hero-section.tsx
 'use client';
 
-import React, { useEffect, useRef } from 'react'; // Added useEffect, useRef
+import React, { useEffect, useRef } from 'react';
 import SplitText from '@/components/effects/SplitText';
-import { gsap } from 'gsap'; // Import gsap
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger); // Register plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
   const textStyle = "font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] leading-relaxed";
-  const lineWrapperStyle = "mb-1 sm:mb-2"; // Applies to the div wrapping SplitText and emoji
+  const lineWrapperStyle = "mb-1 sm:mb-2"; 
 
   const firstLineContainerRef = useRef<HTMLDivElement>(null);
   const emojiRef = useRef<HTMLSpanElement>(null);
@@ -22,14 +22,15 @@ const HeroSection: React.FC = () => {
   const commonSplitTextEase = "power2.out";
 
   useEffect(() => {
-    // GSAP animation for the emoji on the first line
-    if (firstLineContainerRef.current && emojiRef.current) {
-      // Ensure initial state for emoji (important for reverse animation)
-      gsap.set(emojiRef.current, commonSplitTextTo);
+    let emojiScrollTrigger: ScrollTrigger | undefined;
 
-      ScrollTrigger.create({
+    if (firstLineContainerRef.current && emojiRef.current) {
+      gsap.set(emojiRef.current, commonSplitTextFrom); // Set initial state for animation consistency
+
+      emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom", // When the top of the line hits the bottom of the viewport
+        start: "top bottom", 
+        end: "bottom top", // So onLeave and onEnterBack trigger correctly
         // markers: true, // for debugging
         onEnter: () => {
           gsap.to(emojiRef.current, {
@@ -38,28 +39,37 @@ const HeroSection: React.FC = () => {
             ease: commonSplitTextEase,
           });
         },
-        onLeaveBack: () => {
+        onLeave: () => { // When scrolling down, element leaves viewport top
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "power2.in", // Ease in for out-animation
+            ease: "power2.in",
+          });
+        },
+        onEnterBack: () => { // When scrolling up, element re-enters viewport top
+           gsap.to(emojiRef.current, {
+            ...commonSplitTextTo,
+            duration: commonSplitTextDuration,
+            ease: commonSplitTextEase,
+          });
+        },
+        onLeaveBack: () => { // When scrolling up, element leaves viewport bottom
+          gsap.to(emojiRef.current, {
+            ...commonSplitTextFrom,
+            duration: commonSplitTextDuration,
+            ease: "power2.in",
           });
         },
       });
     }
     
-    // Cleanup for ScrollTriggers created in this component
     return () => {
-      // Kill ScrollTriggers associated with firstLineContainerRef to avoid memory leaks
-      const triggers = ScrollTrigger.getAll();
-      triggers.forEach(trigger => {
-        if (trigger.trigger === firstLineContainerRef.current) {
-          trigger.kill();
-        }
-      });
-      gsap.killTweensOf(emojiRef.current); // Kill any active tweens on the emoji
+      if (emojiScrollTrigger) {
+        emojiScrollTrigger.kill();
+      }
+      gsap.killTweensOf(emojiRef.current); 
     };
-  }, []); // Empty dependency array, runs once on mount
+  }, []); 
 
   const handleFirstLineComplete = () => {
     // console.log('First line animation complete!');
@@ -81,7 +91,7 @@ const HeroSection: React.FC = () => {
         <div ref={firstLineContainerRef} className={`flex items-baseline ${lineWrapperStyle}`}>
           <SplitText
             text="i'm adit "
-            className={textStyle} // Apply base style to SplitText's <p>
+            className={textStyle} 
             delay={30}
             duration={commonSplitTextDuration}
             ease={commonSplitTextEase}
@@ -90,8 +100,6 @@ const HeroSection: React.FC = () => {
             to={commonSplitTextTo}
             textAlign="left"
             onAnimationComplete={handleFirstLineComplete}
-            // rootMargin for SplitText is relative to its own trigger.
-            // Default rootMargin in SplitText is "0px" (top bottom)
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
             ✌️
@@ -110,7 +118,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-150px" // Start animation 150px later
+            rootMargin="-150px" 
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -127,7 +135,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-200px" // Start animation 200px later
+            rootMargin="-200px" 
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>

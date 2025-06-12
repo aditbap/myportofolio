@@ -34,7 +34,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   from = { opacity: 0, y: 40 },
   to = { opacity: 1, y: 0 },
   threshold = 0.1,
-  rootMargin = "0px", // Default rootMargin if not specified
+  rootMargin = "0px", 
   textAlign = "left",
   onAnimationComplete,
 }) => {
@@ -83,29 +83,13 @@ const SplitText: React.FC<SplitTextProps> = ({
           (t as HTMLElement).style.willChange = "transform, opacity";
         });
 
-        const startPct = (1 - threshold) * 100;
-        const m = /^(-?\d+)px$/.exec(rootMargin);
-        const raw = m ? parseInt(m[1], 10) : 0;
-        const sign = raw < 0 ? `-=${Math.abs(raw)}px` : `+=${raw}px`;
-        // Ensure start format is correct based on GSAP docs: "triggerScroller viewportPosition"
-        // e.g., "top bottom", "bottom center", "top top+=100px"
-        // For rootMargin based offset, we adjust the trigger point.
-        // A positive rootMargin (e.g., 100px) means trigger sooner, negative (e.g., -100px) means trigger later.
-        // start: "top bottom" is default. "top bottom-100px" triggers when top of el is 100px from bottom of viewport.
-        // "top bottom" + rootMargin. If rootMargin = -100px (trigger 100px later), start should be "top bottom-=100px"
-        // If rootMargin = 100px (trigger 100px earlier), start should be "top bottom+=100px"
-        // For simplicity, let ScrollTrigger handle rootMargin directly if possible, or construct 'start' carefully.
-        // The current `start` calculation seems to be for IntersectionObserver, let's use ScrollTrigger's `start` syntax.
-        // Default start: "top bottom" (when the top of the trigger hits the bottom of the viewport)
-        // We'll use the rootMargin prop to adjust this.
         const start = `top bottom${parseInt(rootMargin) >= 0 ? '+' : '-'}=${Math.abs(parseInt(rootMargin))}px`;
-
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: el,
-            start: start, // Use modified start or let rootMargin work if ST supports it directly on timeline
-            toggleActions: "play none none reverse", // Play on enter, reverse on leave back
+            start: start,
+            toggleActions: "play reverse play reverse", // Play on enter, reverse on leave (both directions)
             // markers: true, // For debugging
           },
           smoothChildTiming: true,
@@ -121,12 +105,10 @@ const SplitText: React.FC<SplitTextProps> = ({
           force3D: true,
         });
 
-        // Store instances for cleanup
         const createdTimeline = tl;
         const createdScrollTrigger = tl.scrollTrigger;
         const createdSplitter = splitter;
 
-        // Cleanup function specific to this effect instance
         (el as any)._gsapCleanup = () => {
           createdTimeline.kill();
           if (createdScrollTrigger) {
@@ -135,7 +117,6 @@ const SplitText: React.FC<SplitTextProps> = ({
           if (createdSplitter && typeof createdSplitter.revert === 'function') {
             createdSplitter.revert();
           }
-          // gsap.killTweensOf(targets) might be redundant if timeline is killed
         };
       });
     }, 0);
@@ -157,7 +138,7 @@ const SplitText: React.FC<SplitTextProps> = ({
     from,
     to,
     threshold,
-    rootMargin, // Ensure rootMargin is in dependency array
+    rootMargin,
     onAnimationComplete,
     textAlign
   ]);
