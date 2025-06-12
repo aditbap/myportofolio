@@ -32,8 +32,8 @@ const HeroSection: React.FC = () => {
 
       emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom-=-150px", // Raised further
-        end: "bottom top+=-150px",   // Raised further
+        start: "top bottom-=-250px", // Raised further
+        end: "bottom top+=-250px",   // Raised further
         // markers: true, 
         onEnter: () => {
           gsap.to(emojiRef.current, {
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-150px" // Raised further
+            rootMargin="-250px" // Raised further
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -122,7 +122,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-300px" // Raised further
+            rootMargin="-400px" // Raised further
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -139,7 +139,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-350px" // Raised further
+            rootMargin="-450px" // Raised further
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>
