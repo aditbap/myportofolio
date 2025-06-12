@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion"; // Diubah dari motion/react
+} from "framer-motion"; // Changed from motion/react
 import React, { useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -28,26 +28,30 @@ const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
 const dockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
+  // Base styles from Magic UI, these define the "default" look if not overridden
+  // Removed mx-auto, mt-8, w-max, justify-center, gap-2 as these are better controlled by the instance
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 flex h-[58px] items-center rounded-2xl border p-2 backdrop-blur-md"
 );
 
-// Fungsi rekursif untuk memproses anak dan meneruskan props animasi
+// Function to recursively find and clone DockIcon components
 const renderChildrenRecursive = (
   children: React.ReactNode,
   mouseXFromParent: MotionValue<number>,
   iconSizeFromParent: number,
   iconMagnificationFromParent: number,
-  iconDistanceFromParent: number
+  iconDistanceFromParent: number,
+  baseKey: string = "child"
 ): React.ReactNode => {
-  return React.Children.map(children, (child) => {
+  return React.Children.map(children, (child, index) => {
+    const childKey = `${baseKey}-${index}`;
     if (!React.isValidElement(child)) {
       return child;
     }
 
-    // Jika anak adalah DockIcon, kloning dengan props animasi
+    // If child is DockIcon, clone with animation props
     if (child.type === DockIcon) {
       return React.cloneElement(child as React.ReactElement<DockIconProps>, {
-        // Sebarkan props yang ada terlebih dahulu
+        key: child.key || childKey, // Ensure key for cloned element
         ...child.props,
         mouseX: mouseXFromParent,
         size: iconSizeFromParent,
@@ -56,8 +60,8 @@ const renderChildrenRecursive = (
       });
     }
 
-    // Jika anak memiliki anak sendiri, lakukan rekursi
-    if (React.isValidElement(child) && child.props.children) {
+    // If child has children, recurse
+    if (child.props.children) {
       const newChildProps = {
         ...child.props,
         children: renderChildrenRecursive(
@@ -65,7 +69,8 @@ const renderChildrenRecursive = (
           mouseXFromParent,
           iconSizeFromParent,
           iconMagnificationFromParent,
-          iconDistanceFromParent
+          iconDistanceFromParent,
+          childKey // Pass down a more specific baseKey
         ),
       };
       return React.cloneElement(child, newChildProps);
@@ -75,10 +80,11 @@ const renderChildrenRecursive = (
   });
 };
 
+
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   (
     {
-      className, // Ini adalah className yang diteruskan dari parent (page.tsx)
+      className, // This is the className passed from page.tsx
       children,
       iconSize = DEFAULT_SIZE,
       iconMagnification = DEFAULT_MAGNIFICATION,
@@ -101,13 +107,17 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.pageX)} // Menggunakan pageX sesuai contoh
+        onMouseMove={(e) => mouseX.set(e.pageX)} // e.pageX is document-relative
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
+        // Corrected className merging for CVA:
+        // 1. Apply base variants
+        // 2. Apply className from props (e.g., from page.tsx)
+        // 3. Apply conditional alignment classes
         className={cn(
-          dockVariants(), // Menerapkan gaya dasar dari CVA
-          className,      // Menerapkan kelas kustom dari parent, bisa menimpa CVA
-          {               // Menerapkan kelas kondisional untuk alignment
+          dockVariants(), 
+          className,      
+          {              
             "items-start": direction === "top",
             "items-center": direction === "middle",
             "items-end": direction === "bottom",
@@ -119,7 +129,6 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     );
   },
 );
-
 Dock.displayName = "Dock";
 
 export interface DockIconProps
@@ -130,36 +139,38 @@ export interface DockIconProps
   mouseX?: MotionValue<number>;
   className?: string;
   children?: React.ReactNode;
-  // props?: PropsWithChildren; // Dihapus karena redundan
+  // Removed props?: PropsWithChildren; as it's redundant
 }
 
 const DockIcon = ({
-  size = DEFAULT_SIZE,
-  magnification = DEFAULT_MAGNIFICATION,
-  distance = DEFAULT_DISTANCE,
-  mouseX,
+  size = DEFAULT_SIZE, // Base size of the icon's interactive area
+  magnification = DEFAULT_MAGNIFICATION, // Max size on hover
+  distance = DEFAULT_DISTANCE, // Range of mouse influence
+  mouseX, // MotionValue for mouse X position (document-relative)
   className,
   children,
   ...props
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
+  // Padding inside the DockIcon, scales with its base size
   const padding = Math.max(6, size * 0.2); 
 
+  // Fallback mouseX if not provided (should always be provided by Dock)
   const defaultMouseX = useMotionValue(Infinity); 
 
-  const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => { // val adalah e.pageX
-    const bounds = ref.current?.getBoundingClientRect() ?? { left: 0, width: 0 }; // bounds.left adalah X relatif thd viewport
-    // Untuk membandingkan pageX (dokumen-relatif) dengan bounds.left (viewport-relatif),
-    // kita perlu membuat posisi ikon menjadi dokumen-relatif.
+  const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => { // val is e.pageX
+    const bounds = ref.current?.getBoundingClientRect() ?? { left: 0, width: 0 };
+    // To compare e.pageX (document-relative) with bounds.left (viewport-relative),
+    // convert icon's left boundary to be document-relative by adding scrollX.
     const iconCenterXinDocument = bounds.left + (typeof window !== 'undefined' ? window.scrollX : 0) + bounds.width / 2;
     return val - iconCenterXinDocument;
   });
 
   const sizeTransform = useTransform(
     distanceCalc,
-    [-distance, 0, distance],
-    [size, magnification, size], 
+    [-distance, 0, distance], // input range: from -distance to +distance around icon center
+    [size, magnification, size], // output range: from base size to magnified size and back
   );
 
   const scaleSize = useSpring(sizeTransform, {
@@ -174,7 +185,7 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
-        padding 
+        padding // Apply calculated padding
       }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full", 
