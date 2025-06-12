@@ -17,7 +17,7 @@ const HeroSection: React.FC = () => {
 
   const commonSplitTextFrom = { opacity: 0, y: 30, scale: 0.8, rotateX: -45 };
   const commonSplitTextTo = { opacity: 1, y: 0, scale: 1, rotateX: 0 };
-  const commonSplitTextDuration = 0.3; // Adjusted for faster out animation previously
+  const commonSplitTextDuration = 0.3; 
   const commonSplitTextEase = "power2.out";
 
   const firstLineDelay = 30;
@@ -32,8 +32,8 @@ const HeroSection: React.FC = () => {
 
       emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom-=-50px", // Adjusted: Trigger sooner (higher)
-        end: "bottom top+=-50px",   // Adjusted: Keep zone relative but shifted
+        start: "top bottom-=-150px", // Raised further
+        end: "bottom top+=-150px",   // Raised further
         // markers: true, 
         onEnter: () => {
           gsap.to(emojiRef.current, {
@@ -46,7 +46,7 @@ const HeroSection: React.FC = () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "power2.in", // Can use a different ease for out if desired
+            ease: "power2.in", 
           });
         },
         onEnterBack: () => { 
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-50px" // Adjusted: Trigger sooner (higher)
+            rootMargin="-150px" // Raised further
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -122,7 +122,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-200px" // Adjusted: Trigger sooner (higher)
+            rootMargin="-300px" // Raised further
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -139,7 +139,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-250px" // Adjusted: Trigger sooner (higher)
+            rootMargin="-350px" // Raised further
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>
