@@ -28,16 +28,16 @@ const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
 const dockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md dark:border-neutral-700",
-);
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto flex w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md dark:border-neutral-700",
+); // Removed h-[58px]
 
 // Recursive function to process children
 const renderChildrenRecursive = (
   children: React.ReactNode,
-  mouseX: MotionValue<number>,
-  iconSize: number,
-  iconMagnification: number,
-  iconDistance: number
+  mouseXFromParent: MotionValue<number>,
+  iconSizeFromParent: number,
+  iconMagnificationFromParent: number,
+  iconDistanceFromParent: number
 ): React.ReactNode => {
   return React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) {
@@ -48,10 +48,10 @@ const renderChildrenRecursive = (
     if (child.type === DockIcon) {
       return React.cloneElement(child as React.ReactElement<DockIconProps>, {
         ...child.props, // Spread existing props first
-        mouseX: mouseX,
-        size: iconSize,
-        magnification: iconMagnification,
-        distance: iconDistance,
+        mouseX: mouseXFromParent,
+        size: iconSizeFromParent,
+        magnification: iconMagnificationFromParent,
+        distance: iconDistanceFromParent,
       });
     }
 
@@ -61,10 +61,10 @@ const renderChildrenRecursive = (
         ...child.props,
         children: renderChildrenRecursive(
           child.props.children,
-          mouseX,
-          iconSize,
-          iconMagnification,
-          iconDistance
+          mouseXFromParent,
+          iconSizeFromParent,
+          iconMagnificationFromParent,
+          iconDistanceFromParent
         ),
       };
       return React.cloneElement(child, newChildProps);
@@ -101,7 +101,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.clientX)} // Changed to e.clientX
+        onMouseMove={(e) => mouseX.set(e.clientX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
         className={cn(dockVariants(), className, { 
@@ -140,7 +140,6 @@ const DockIcon = ({
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
-  // Padding calculation based on the original Magic UI component
   const padding = Math.max(6, size * 0.2); 
 
   const defaultMouseX = useMotionValue(Infinity); 
@@ -168,7 +167,7 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
-        padding // Apply padding directly to the motion.div
+        padding 
       }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full",
@@ -176,7 +175,6 @@ const DockIcon = ({
       )}
       {...props}
     >
-      {/* Children are now direct children of the motion.div with padding */}
       {children}
     </motion.div>
   );
@@ -185,4 +183,3 @@ const DockIcon = ({
 DockIcon.displayName = "DockIcon";
 
 export { Dock, DockIcon, dockVariants };
-
