@@ -48,7 +48,8 @@ const renderChildrenRecursive = (
     // Jika anak adalah DockIcon, kloning dengan props animasi
     if (child.type === DockIcon) {
       return React.cloneElement(child as React.ReactElement<DockIconProps>, {
-        ...child.props, // Sebarkan props yang ada terlebih dahulu
+        // Sebarkan props yang ada terlebih dahulu
+        ...child.props,
         mouseX: mouseXFromParent,
         size: iconSizeFromParent,
         magnification: iconMagnificationFromParent,
@@ -90,7 +91,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   ) => {
     const mouseX = useMotionValue(Infinity);
 
-    // Menggunakan fungsi rekursif
+    // Menggunakan fungsi rekursif yang disesuaikan
     const processedChildren = renderChildrenRecursive(
       children,
       mouseX,
@@ -105,7 +106,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
-        // Memastikan className prop diterapkan dengan benar
+        // Memastikan className prop diterapkan dengan benar untuk menimpa CVA
         className={cn(dockVariants(), className, { 
           "items-start": direction === "top",
           "items-center": direction === "middle",
@@ -128,7 +129,7 @@ export interface DockIconProps
   mouseX?: MotionValue<number>;
   className?: string;
   children?: React.ReactNode;
-  props?: PropsWithChildren;
+  // props?: PropsWithChildren; // Dihapus karena redundan
 }
 
 const DockIcon = ({
@@ -142,25 +143,14 @@ const DockIcon = ({
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
-  // Logika padding dari kode pengguna sebelumnya yang tampaknya lebih cocok
-  const padding = Math.max(0, size * 0.1); // Disesuaikan agar ikon tidak terlalu kecil
+  const padding = Math.max(6, size * 0.2); 
 
   const defaultMouseX = useMotionValue(Infinity); 
 
   const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    // Menggunakan e.pageX (document-relative) untuk mouseX, jadi bounds.x juga harus sesuai
-    // Jika mouseX adalah clientX (viewport-relative), bounds.x (viewport-relative) sudah benar.
-    // Karena mouseX.set(e.pageX), kita perlu konsisten.
-    // Untuk fixed elements, clientX dan pageX mungkin sama di atas, tapi getBoundingClientRect().x selalu viewport relative.
-    // Mari kita coba pageX - window.scrollX untuk mendapatkan posisi viewport dari pageX
-    // atau, lebih sederhana, jika mouseX adalah pageX, maka kita perlu posisi elemen relatif ke dokumen juga.
-    // Solusi paling mudah: gunakan clientX untuk mouseX, yang sudah viewport-relative.
-    // Namun, karena kode pengguna menentukan e.pageX, kita ikuti itu.
-    // bounds.x adalah relatif viewport. pageX adalah relatif dokumen.
-    // Untuk menyamakannya, kita bisa gunakan: val - (bounds.left + window.scrollX) - bounds.width / 2;
-    // bounds.left sama dengan bounds.x
-    return val - (bounds.x + (typeof window !== 'undefined' ? window.scrollX : 0)) - bounds.width / 2;
+    const bounds = ref.current?.getBoundingClientRect() ?? { left: 0, width: 0 };
+    // Menggunakan bounds.left dan window.scrollX untuk pageX yang akurat
+    return val - (bounds.left + (typeof window !== 'undefined' ? window.scrollX : 0)) - bounds.width / 2;
   });
 
   const sizeTransform = useTransform(
@@ -184,7 +174,7 @@ const DockIcon = ({
         padding // padding yang diterapkan di sini
       }}
       className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded-full", // Pastikan tidak ada padding dari className yang bertentangan
+        "flex aspect-square cursor-pointer items-center justify-center rounded-full", 
         className,
       )}
       {...props}
