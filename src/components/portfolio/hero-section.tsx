@@ -1,3 +1,4 @@
+
 // src/components/portfolio/hero-section.tsx
 'use client';
 
@@ -10,14 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
   const textStyle = "font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] leading-relaxed";
-  const lineWrapperStyle = "mb-1 sm:mb-2"; 
+  const lineWrapperStyle = "mb-1 sm:mb-2";
 
   const firstLineContainerRef = useRef<HTMLDivElement>(null);
   const emojiRef = useRef<HTMLSpanElement>(null);
 
   const commonSplitTextFrom = { opacity: 0, y: 30, scale: 0.8, rotateX: -45 };
   const commonSplitTextTo = { opacity: 1, y: 0, scale: 1, rotateX: 0 };
-  const commonSplitTextDuration = 2; 
+  const commonSplitTextDuration = 2;
   const commonSplitTextEase = "elastic.out(1,0.3)";
 
   const firstLineDelay = 30;
@@ -28,13 +29,13 @@ const HeroSection: React.FC = () => {
     let emojiScrollTrigger: ScrollTrigger | undefined;
 
     if (firstLineContainerRef.current && emojiRef.current) {
-      gsap.set(emojiRef.current, commonSplitTextFrom); 
+      gsap.set(emojiRef.current, commonSplitTextFrom);
 
       emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom-=-350px", 
-        end: "bottom top+=-350px",   
-        // markers: true, 
+        start: "top bottom-=-350px",
+        end: "bottom top+=-350px",
+        // markers: true,
         onEnter: () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextTo,
@@ -42,21 +43,21 @@ const HeroSection: React.FC = () => {
             ease: commonSplitTextEase,
           });
         },
-        onLeave: () => { 
+        onLeave: () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "elastic.out(1,0.3)", 
+            ease: "elastic.out(1,0.3)",
           });
         },
-        onEnterBack: () => { 
+        onEnterBack: () => {
            gsap.to(emojiRef.current, {
             ...commonSplitTextTo,
             duration: commonSplitTextDuration,
             ease: commonSplitTextEase,
           });
         },
-        onLeaveBack: () => { 
+        onLeaveBack: () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
@@ -70,9 +71,9 @@ const HeroSection: React.FC = () => {
       if (emojiScrollTrigger) {
         emojiScrollTrigger.kill();
       }
-      gsap.killTweensOf(emojiRef.current); 
+      gsap.killTweensOf(emojiRef.current);
     };
-  }, []); 
+  }, []);
 
   const handleFirstLineComplete = () => {
     // console.log('First line animation complete!');
@@ -94,7 +95,7 @@ const HeroSection: React.FC = () => {
         <div ref={firstLineContainerRef} className={`flex items-baseline ${lineWrapperStyle}`}>
           <SplitText
             text="i'm adit "
-            className={textStyle} 
+            className={textStyle}
             delay={firstLineDelay}
             duration={commonSplitTextDuration}
             ease={commonSplitTextEase}
@@ -102,7 +103,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-50px" 
+            rootMargin="-50px"
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -122,26 +123,28 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-100px" 
+            rootMargin="-100px"
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
 
         {/* Line 3 */}
         <div className={lineWrapperStyle}>
-          <SplitText
-            text="@scrolldown through prototypes"
-            className={textStyle}
-            delay={thirdLineDelay}
-            duration={commonSplitTextDuration}
-            ease={commonSplitTextEase}
-            splitType="chars"
-            from={commonSplitTextFrom}
-            to={commonSplitTextTo}
-            textAlign="left"
-            rootMargin="-150px" 
-            onAnimationComplete={handleThirdLineComplete}
-          />
+          <a href="#projects" className="inline-block text-inherit no-underline hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded">
+            <SplitText
+              text="@scrolldown through prototypes"
+              className={textStyle}
+              delay={thirdLineDelay}
+              duration={commonSplitTextDuration}
+              ease={commonSplitTextEase}
+              splitType="chars"
+              from={commonSplitTextFrom}
+              to={commonSplitTextTo}
+              textAlign="left"
+              rootMargin="-150px"
+              onAnimationComplete={handleThirdLineComplete}
+            />
+          </a>
         </div>
       </div>
     </section>

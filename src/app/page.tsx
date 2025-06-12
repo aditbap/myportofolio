@@ -1,9 +1,9 @@
 
 import HeroSection from '@/components/portfolio/hero-section';
 import FooterSection from '@/components/portfolio/footer-section';
-import ProjectsSection from '@/components/portfolio/projects-section'; 
+import ProjectsSection from '@/components/portfolio/projects-section';
 import Link from 'next/link';
-import { Linkedin, Mail } from 'lucide-react'; 
+import { Linkedin, Mail } from 'lucide-react';
 import { Dock } from '@/components/ui/dock';
 
 export default function BentoPortfolioPage() {
@@ -18,21 +18,18 @@ export default function BentoPortfolioPage() {
             BENEDIKTUS ADIT
           </Link>
           
-          <div className="flex items-center space-x-3 sm:space-x-4"> 
-            <Link href="/#projects" className="font-jakarta text-xs sm:text-sm text-neutral-500 hover:text-neutral-300 transition-colors no-underline">
-              Projects
-            </Link>
-            <a 
-              href="https://linkedin.com/in/aditbap" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label="LinkedIn Profile" 
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <a
+              href="https://linkedin.com/in/aditbap"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
               className="text-neutral-500 hover:text-neutral-300 transition-colors flex items-center justify-center"
             >
               <Linkedin className="h-5 w-5" />
             </a>
-            <a 
-              href="mailto:aditbaps@gmail.com" 
+            <a
+              href="mailto:aditbaps@gmail.com"
               aria-label="Email Benediktus Adit"
               className="text-neutral-500 hover:text-neutral-300 transition-colors flex items-center justify-center"
             >
@@ -42,7 +39,7 @@ export default function BentoPortfolioPage() {
         </Dock>
       </header>
       
-      <main className="flex-grow pt-28 sm:pt-32 md:pt-32"> 
+      <main className="flex-grow pt-28 sm:pt-32 md:pt-32">
         <HeroSection />
         <ProjectsSection />
       </main>
