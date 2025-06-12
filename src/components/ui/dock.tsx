@@ -101,7 +101,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseMove={(e) => mouseX.set(e.clientX)} // Changed to e.clientX
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
         className={cn(dockVariants(), className, { 
@@ -140,10 +140,8 @@ const DockIcon = ({
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
-  // Adjusted padding calculation to ensure icons are not too small
-  // The padding is applied to the inner div, so the icon itself can use the space.
-  // Use a slightly smaller base padding, e.g., size * 0.1 or a fixed small value.
-  const paddingValue = Math.max(2, size * 0.1); // Smaller padding for better icon visibility
+  // Padding calculation based on the original Magic UI component
+  const padding = Math.max(6, size * 0.2); 
 
   const defaultMouseX = useMotionValue(Infinity); 
 
@@ -170,6 +168,7 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
+        padding // Apply padding directly to the motion.div
       }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full",
@@ -177,13 +176,8 @@ const DockIcon = ({
       )}
       {...props}
     >
-      {/* Apply padding to an inner div to control content spacing without affecting motion.div's animated size directly */}
-      <div 
-        style={{ padding: `${paddingValue}px` }} 
-        className="flex items-center justify-center w-full h-full"
-      >
-         {children}
-      </div>
+      {/* Children are now direct children of the motion.div with padding */}
+      {children}
     </motion.div>
   );
 };
@@ -191,3 +185,4 @@ const DockIcon = ({
 DockIcon.displayName = "DockIcon";
 
 export { Dock, DockIcon, dockVariants };
+
