@@ -27,11 +27,12 @@ const DEFAULT_SIZE = 40;
 const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
+// Using the dockVariants exactly as provided by user in their last Magic UI code snippet
 const dockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 flex h-[58px] items-center rounded-2xl border p-2 backdrop-blur-md dark:border-neutral-700",
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
 );
 
-// Recursive function to process children
+// Recursive function to process children and pass animation props
 const renderChildrenRecursive = (
   children: React.ReactNode,
   mouseXFromParent: MotionValue<number>,
@@ -74,7 +75,6 @@ const renderChildrenRecursive = (
   });
 };
 
-
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   (
     {
@@ -101,9 +101,12 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.pageX)} // Changed back to e.pageX
+        onMouseMove={(e) => mouseX.set(e.pageX)} // Using e.pageX as in Magic UI example
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
+        // Apply className from props AFTER dockVariants to allow overrides.
+        // dockVariants({ className: undefined }) is used because we don't want cva to pick variants based on the passed className,
+        // but rather let the passed className override the base styles from cva.
         className={cn(dockVariants(), className, { 
           "items-start": direction === "top",
           "items-center": direction === "middle",

@@ -11,7 +11,9 @@ export default function BentoPortfolioPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="fixed top-6 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl px-4">
         <Dock
-          className="bg-neutral-800 rounded-full shadow-xl px-6 flex items-center justify-between w-full shrink-0 outline-none !gap-0" // Removed py-6
+          // Overriding defaults from dockVariants for full-width, specific alignment, and no margin/gap.
+          // Retaining px-6 for horizontal padding. Vertical padding comes from h-[58px] and p-2 in dockVariants.
+          className="bg-neutral-800 rounded-full shadow-xl px-6 flex items-center justify-between w-full shrink-0 outline-none !gap-0 !mx-0 !mt-0" 
           iconSize={32} 
           iconMagnification={48} 
           iconDistance={100} 
