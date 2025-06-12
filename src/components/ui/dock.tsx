@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "motion/react"; // Ensure this is correct for your project setup
+} from "framer-motion"; // Changed to framer-motion
 import React, { PropsWithChildren, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -70,7 +70,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
-        className={cn(dockVariants(), className, { // Apply default variants first, then allow override by className
+        className={cn(dockVariants(), className, { 
           "items-start": direction === "top",
           "items-center": direction === "middle",
           "items-end": direction === "bottom",
@@ -106,22 +106,19 @@ const DockIcon = ({
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
-  // Calculate padding based on the icon's base size.
-  // This padding creates space around the icon within the motion.div
-  const padding = Math.max(4, size * 0.15); // Adjusted padding calculation
+  const padding = Math.max(4, size * 0.15); 
 
-  const defaultMouseX = useMotionValue(Infinity); // Local mouseX for isolated icons
+  const defaultMouseX = useMotionValue(Infinity); 
 
   const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  // The sizeTransform will animate the motion.div's dimensions
   const sizeTransform = useTransform(
     distanceCalc,
     [-distance, 0, distance],
-    [size, magnification, size], // Animate between base size and magnified size
+    [size, magnification, size], 
   );
 
   const scaleSize = useSpring(sizeTransform, {
@@ -136,7 +133,6 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
-        // Padding is applied to the motion.div, children are centered within this.
       }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full",
@@ -144,8 +140,6 @@ const DockIcon = ({
       )}
       {...props}
     >
-      {/* The children (e.g., the actual SVG icon) are rendered here */}
-      {/* Apply padding to an inner div if icons should not touch edges of magnified area */}
       <div style={{ padding: `${padding}px` }} className="flex items-center justify-center w-full h-full">
          {children}
       </div>
