@@ -19,7 +19,7 @@ const technologies = [
 const TechStackSection: React.FC = () => {
   return (
     <section id="tech-stack" className="py-8 md:py-12 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 overflow-x-auto">
         <ul className="flex whitespace-nowrap justify-start sm:justify-center gap-3 sm:gap-4 py-2">
           {technologies.map((tech, index) => (
             <li 
