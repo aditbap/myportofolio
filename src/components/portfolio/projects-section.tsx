@@ -1,6 +1,6 @@
 // src/components/portfolio/projects-section.tsx
-import { Layers, ExternalLink, Globe } from 'lucide-react'; // Added Globe
-import { Card, CardContent } from '@/components/ui/card'; // Removed CardHeader, CardTitle, CardDescription as direct imports for this component's usage
+import { Layers, Globe } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -11,16 +11,16 @@ interface Project {
   imageHint: string;
   technologies: string[];
   liveLink?: string;
-  repoLink?: string; // Kept in interface if needed elsewhere, but won't be used for buttons in this version
-  emoji?: string; // Kept in interface, but won't be rendered
-  date: string; // Added date field
+  repoLink?: string;
+  emoji?: string;
+  date: string;
 }
 
 const projects: Project[] = [
   {
     title: "Studifai",
     description: "A platform that helps academics with active learning by utilizing OpenAI's GPT models.",
-    imageUrl: "https://placehold.co/600x375.png", // 16:10 aspect ratio
+    imageUrl: "https://placehold.co/600x375.png",
     imageHint: "educational platform UI",
     technologies: ["Next.js", "Typescript", "PostgreSQL", "Prisma", "TailwindCSS", "Midtrans", "Shadcn UI", "Langchain"],
     liveLink: "#",
@@ -41,14 +41,14 @@ const projects: Project[] = [
     imageUrl: "https://placehold.co/600x375.png",
     imageHint: "mobile app",
     technologies: ["React Native", "Firebase", "Redux", "SQLite"],
-    liveLink: "#", // Changed from repoLink to liveLink to show the "Website" button
+    liveLink: "#",
     date: "August 2022"
   },
 ];
 
 const ProjectsSection: React.FC = () => (
-  <section id="projects" className="py-16 md:py-24 bg-background">
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="projects" className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background">
+    <div className="px-6"> {/* Changed from container mx-auto px-4 sm:px-6 lg:px-8 */}
       <div className="flex items-center justify-center mb-16">
         <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary text-center">
           My Projects
@@ -86,7 +86,7 @@ const ProjectsSection: React.FC = () => (
               </div>
 
               {/* Action Button */}
-              <div className="mt-auto"> {/* Removed pt-4 to rely on flex-grow from description and mb-6 from tech */}
+              <div className="mt-auto">
                 {project.liveLink && (
                   <Button variant="secondary" size="sm" asChild className="w-full sm:w-auto">
                     <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
