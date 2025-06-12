@@ -1,5 +1,5 @@
 // src/components/portfolio/projects-section.tsx
-import { Layers, Globe } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -20,7 +20,7 @@ const projects: Project[] = [
   {
     title: "Studifai",
     description: "A platform that helps academics with active learning by utilizing OpenAI's GPT models.",
-    imageUrl: "https://placehold.co/600x375.png",
+    imageUrl: "https://placehold.co/600x375.png", // Aspect ratio 16:10 (600/375 = 1.6)
     imageHint: "educational platform UI",
     technologies: ["Next.js", "Typescript", "PostgreSQL", "Prisma", "TailwindCSS", "Midtrans", "Shadcn UI", "Langchain"],
     liveLink: "#",
@@ -48,12 +48,17 @@ const projects: Project[] = [
 
 const ProjectsSection: React.FC = () => (
   <section id="projects" className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background">
-    <div className="px-6"> {/* Changed from container mx-auto px-4 sm:px-6 lg:px-8 */}
-      <div className="flex items-center justify-center mb-16">
-        <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary text-center">
-          My Projects
+    <div className="px-6">
+      <div className="text-center mb-16">
+        <span className="inline-block rounded-full bg-primary-foreground text-background px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
+          Selected Projects
+        </span>
+        <h2 className="font-headline text-4xl md:text-5xl font-bold text-foreground mb-4">
+          Check out my latest work
         </h2>
-        <Layers className="ml-3 h-10 w-10 text-primary" />
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          I've worked on a variety of projects, from simple websites to complex web applications. Here are a few of my favorites.
+        </p>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project, index) => (
