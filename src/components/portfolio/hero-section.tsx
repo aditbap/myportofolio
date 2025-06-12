@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
   const commonSplitTextFrom = { opacity: 0, y: 30, scale: 0.8, rotateX: -45 };
   const commonSplitTextTo = { opacity: 1, y: 0, scale: 1, rotateX: 0 };
   const commonSplitTextDuration = 0.3; 
-  const commonSplitTextEase = "power2.out";
+  const commonSplitTextEase = "elastic.out(1,0.3)";
 
   const firstLineDelay = 30;
   const secondLineDelay = 20;
@@ -32,8 +32,8 @@ const HeroSection: React.FC = () => {
 
       emojiScrollTrigger = ScrollTrigger.create({
         trigger: firstLineContainerRef.current,
-        start: "top bottom-=-350px", // Raised further
-        end: "bottom top+=-350px",   // Raised further
+        start: "top bottom-=-350px", 
+        end: "bottom top+=-350px",   
         // markers: true, 
         onEnter: () => {
           gsap.to(emojiRef.current, {
@@ -46,7 +46,7 @@ const HeroSection: React.FC = () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "power2.in", 
+            ease: "elastic.out(1,0.3)", 
           });
         },
         onEnterBack: () => { 
@@ -60,7 +60,7 @@ const HeroSection: React.FC = () => {
           gsap.to(emojiRef.current, {
             ...commonSplitTextFrom,
             duration: commonSplitTextDuration,
-            ease: "power2.in",
+            ease: "elastic.out(1,0.3)",
           });
         },
       });
@@ -87,7 +87,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="intro"
-      className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 text-left min-h-[calc(100vh-7rem)] sm:min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8rem)]"
+      className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 text-left min-h-[calc(100vh-15rem)] sm:min-h-[calc(100vh-16rem)] md:min-h-[calc(100vh-16rem)]"
     >
       <div className="px-6 pt-64">
         {/* Line 1 */}
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-350px" // Raised further
+            rootMargin="-350px" 
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -122,7 +122,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-500px" // Raised further
+            rootMargin="-500px" 
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -139,7 +139,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-550px" // Raised further
+            rootMargin="-550px" 
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>
