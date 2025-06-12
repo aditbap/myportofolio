@@ -10,7 +10,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion"; // Diubah dari motion/react
-import React, { PropsWithChildren, useRef } from "react";
+import React, { useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -27,7 +27,6 @@ const DEFAULT_SIZE = 40;
 const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
-// dockVariants dari kode yang diberikan pengguna
 const dockVariants = cva(
   "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
 );
@@ -79,7 +78,7 @@ const renderChildrenRecursive = (
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   (
     {
-      className, // className prop dari DockProps
+      className, // Ini adalah className yang diteruskan dari parent (page.tsx)
       children,
       iconSize = DEFAULT_SIZE,
       iconMagnification = DEFAULT_MAGNIFICATION,
@@ -91,7 +90,6 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   ) => {
     const mouseX = useMotionValue(Infinity);
 
-    // Menggunakan fungsi rekursif yang disesuaikan
     const processedChildren = renderChildrenRecursive(
       children,
       mouseX,
@@ -103,15 +101,18 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseMove={(e) => mouseX.set(e.pageX)} // Menggunakan pageX sesuai contoh
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
-        // Memastikan className prop diterapkan dengan benar untuk menimpa CVA
-        className={cn(dockVariants(), className, { 
-          "items-start": direction === "top",
-          "items-center": direction === "middle",
-          "items-end": direction === "bottom",
-        })}
+        className={cn(
+          dockVariants(), // Menerapkan gaya dasar dari CVA
+          className,      // Menerapkan kelas kustom dari parent, bisa menimpa CVA
+          {               // Menerapkan kelas kondisional untuk alignment
+            "items-start": direction === "top",
+            "items-center": direction === "middle",
+            "items-end": direction === "bottom",
+          }
+        )}
       >
         {processedChildren}
       </motion.div>
@@ -147,10 +148,12 @@ const DockIcon = ({
 
   const defaultMouseX = useMotionValue(Infinity); 
 
-  const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { left: 0, width: 0 };
-    // Menggunakan bounds.left dan window.scrollX untuk pageX yang akurat
-    return val - (bounds.left + (typeof window !== 'undefined' ? window.scrollX : 0)) - bounds.width / 2;
+  const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => { // val adalah e.pageX
+    const bounds = ref.current?.getBoundingClientRect() ?? { left: 0, width: 0 }; // bounds.left adalah X relatif thd viewport
+    // Untuk membandingkan pageX (dokumen-relatif) dengan bounds.left (viewport-relatif),
+    // kita perlu membuat posisi ikon menjadi dokumen-relatif.
+    const iconCenterXinDocument = bounds.left + (typeof window !== 'undefined' ? window.scrollX : 0) + bounds.width / 2;
+    return val - iconCenterXinDocument;
   });
 
   const sizeTransform = useTransform(
@@ -171,7 +174,7 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
-        padding // padding yang diterapkan di sini
+        padding 
       }}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full", 
