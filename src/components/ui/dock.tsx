@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion"; // Changed from motion/react
+} from "framer-motion";
 import React, { useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -109,6 +109,9 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
         ref={ref}
         onMouseMove={(e) => mouseX.set(e.pageX)} // e.pageX is document-relative
         onMouseLeave={() => mouseX.set(Infinity)}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
         {...props}
         // Corrected className merging for CVA:
         // 1. Apply base variants
@@ -139,7 +142,6 @@ export interface DockIconProps
   mouseX?: MotionValue<number>;
   className?: string;
   children?: React.ReactNode;
-  // Removed props?: PropsWithChildren; as it's redundant
 }
 
 const DockIcon = ({
