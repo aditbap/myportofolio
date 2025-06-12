@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion"; // Changed to framer-motion
+} from "framer-motion"; // Diubah dari motion/react
 import React, { PropsWithChildren, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -27,12 +27,12 @@ const DEFAULT_SIZE = 40;
 const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
-// Using the dockVariants exactly as provided by user in their last Magic UI code snippet
+// dockVariants dari kode yang diberikan pengguna
 const dockVariants = cva(
   "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md",
 );
 
-// Recursive function to process children and pass animation props
+// Fungsi rekursif untuk memproses anak dan meneruskan props animasi
 const renderChildrenRecursive = (
   children: React.ReactNode,
   mouseXFromParent: MotionValue<number>,
@@ -45,10 +45,10 @@ const renderChildrenRecursive = (
       return child;
     }
 
-    // If the child is a DockIcon, clone it with animation props
+    // Jika anak adalah DockIcon, kloning dengan props animasi
     if (child.type === DockIcon) {
       return React.cloneElement(child as React.ReactElement<DockIconProps>, {
-        ...child.props, // Spread existing props first
+        ...child.props, // Sebarkan props yang ada terlebih dahulu
         mouseX: mouseXFromParent,
         size: iconSizeFromParent,
         magnification: iconMagnificationFromParent,
@@ -56,7 +56,7 @@ const renderChildrenRecursive = (
       });
     }
 
-    // If the child has its own children, recurse
+    // Jika anak memiliki anak sendiri, lakukan rekursi
     if (React.isValidElement(child) && child.props.children) {
       const newChildProps = {
         ...child.props,
@@ -78,7 +78,7 @@ const renderChildrenRecursive = (
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   (
     {
-      className,
+      className, // className prop dari DockProps
       children,
       iconSize = DEFAULT_SIZE,
       iconMagnification = DEFAULT_MAGNIFICATION,
@@ -90,6 +90,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   ) => {
     const mouseX = useMotionValue(Infinity);
 
+    // Menggunakan fungsi rekursif
     const processedChildren = renderChildrenRecursive(
       children,
       mouseX,
@@ -101,12 +102,10 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     return (
       <motion.div
         ref={ref}
-        onMouseMove={(e) => mouseX.set(e.pageX)} // Using e.pageX as in Magic UI example
+        onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
         {...props}
-        // Apply className from props AFTER dockVariants to allow overrides.
-        // dockVariants({ className: undefined }) is used because we don't want cva to pick variants based on the passed className,
-        // but rather let the passed className override the base styles from cva.
+        // Memastikan className prop diterapkan dengan benar
         className={cn(dockVariants(), className, { 
           "items-start": direction === "top",
           "items-center": direction === "middle",
@@ -143,13 +142,25 @@ const DockIcon = ({
 }: DockIconProps) => {
   const ref = useRef<HTMLDivElement>(null);
   
-  const padding = Math.max(6, size * 0.2); 
+  // Logika padding dari kode pengguna sebelumnya yang tampaknya lebih cocok
+  const padding = Math.max(0, size * 0.1); // Disesuaikan agar ikon tidak terlalu kecil
 
   const defaultMouseX = useMotionValue(Infinity); 
 
   const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
+    // Menggunakan e.pageX (document-relative) untuk mouseX, jadi bounds.x juga harus sesuai
+    // Jika mouseX adalah clientX (viewport-relative), bounds.x (viewport-relative) sudah benar.
+    // Karena mouseX.set(e.pageX), kita perlu konsisten.
+    // Untuk fixed elements, clientX dan pageX mungkin sama di atas, tapi getBoundingClientRect().x selalu viewport relative.
+    // Mari kita coba pageX - window.scrollX untuk mendapatkan posisi viewport dari pageX
+    // atau, lebih sederhana, jika mouseX adalah pageX, maka kita perlu posisi elemen relatif ke dokumen juga.
+    // Solusi paling mudah: gunakan clientX untuk mouseX, yang sudah viewport-relative.
+    // Namun, karena kode pengguna menentukan e.pageX, kita ikuti itu.
+    // bounds.x adalah relatif viewport. pageX adalah relatif dokumen.
+    // Untuk menyamakannya, kita bisa gunakan: val - (bounds.left + window.scrollX) - bounds.width / 2;
+    // bounds.left sama dengan bounds.x
+    return val - (bounds.x + (typeof window !== 'undefined' ? window.scrollX : 0)) - bounds.width / 2;
   });
 
   const sizeTransform = useTransform(
@@ -170,10 +181,10 @@ const DockIcon = ({
       style={{ 
         width: scaleSize, 
         height: scaleSize, 
-        padding 
+        padding // padding yang diterapkan di sini
       }}
       className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded-full",
+        "flex aspect-square cursor-pointer items-center justify-center rounded-full", // Pastikan tidak ada padding dari className yang bertentangan
         className,
       )}
       {...props}
