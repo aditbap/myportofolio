@@ -17,7 +17,7 @@ const HeroSection: React.FC = () => {
 
   const commonSplitTextFrom = { opacity: 0, y: 30, scale: 0.8, rotateX: -45 };
   const commonSplitTextTo = { opacity: 1, y: 0, scale: 1, rotateX: 0 };
-  const commonSplitTextDuration = 0.3; 
+  const commonSplitTextDuration = 2; 
   const commonSplitTextEase = "elastic.out(1,0.3)";
 
   const firstLineDelay = 30;
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-350px" 
+            rootMargin="-50px" 
             onAnimationComplete={handleFirstLineComplete}
           />
           <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
@@ -122,7 +122,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-500px" 
+            rootMargin="-100px" 
             onAnimationComplete={handleSecondLineComplete}
           />
         </div>
@@ -139,7 +139,7 @@ const HeroSection: React.FC = () => {
             from={commonSplitTextFrom}
             to={commonSplitTextTo}
             textAlign="left"
-            rootMargin="-550px" 
+            rootMargin="-150px" 
             onAnimationComplete={handleThirdLineComplete}
           />
         </div>
