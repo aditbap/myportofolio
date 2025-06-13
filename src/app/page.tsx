@@ -6,26 +6,49 @@ import FooterSection from '@/components/portfolio/footer-section';
 import ProjectsSection from '@/components/portfolio/projects-section';
 import TechStackSection from '@/components/portfolio/tech-stack-section';
 import Link from 'next/link';
-import { Linkedin, Mail, Github } from 'lucide-react'; // Import Github icon
+import { Linkedin, Mail, Github } from 'lucide-react';
 import { Dock } from '@/components/ui/dock';
 import Lenis from "lenis";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { cn } from "@/lib/utils";
 
 export default function BentoPortfolioPage() {
+  const [applyShadow, setApplyShadow] = useState(false);
+
   useEffect(() => {
     const lenis = new Lenis();
     function raf(time:any) {
       lenis.raf(time);
       requestAnimationFrame(raf)
     }
-    requestAnimationFrame(raf)
+    requestAnimationFrame(raf);
+
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setApplyShadow(true);
+      } else {
+        setApplyShadow(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Initial check in case page loads scrolled
+    handleScroll(); 
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      // lenis.destroy(); // Optional: if Lenis instance needs cleanup
+    };
   }, [])
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="fixed top-6 sm:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl px-4">
         <Dock
-          className="bg-neutral-800 rounded-full shadow-xl px-6 flex items-center justify-between w-full shrink-0 outline-none !gap-0 !mx-0 !mt-0"
+          className={cn(
+            "bg-neutral-800 rounded-full px-6 flex items-center justify-between w-full shrink-0 outline-none !gap-0 !mx-0 !mt-0 transition-shadow duration-300 ease-out",
+            applyShadow ? "shadow-xl" : "shadow-none"
+          )}
           direction="middle"
         >
           <Link href="/" className="font-jakarta font-bold text-xs sm:text-sm text-neutral-500 hover:opacity-80 transition-opacity tracking-[0.15em] no-underline">
