@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import ScrollFloatElement from '@/components/effects/ScrollFloatElement';
-import SplitText from '@/components/effects/SplitText'; 
+// Removed SplitText import as it's no longer used here
 
 import myAvatar from '@/components/image/my-avatar.png';
 import myAvatarHover from '@/components/image/my-avatar-hover.png';
@@ -25,7 +25,7 @@ const FooterSection: React.FC = () => {
     ease: 'power1.out',
     scrollStart: 'top bottom-=5vh', 
     scrollEnd: 'center 75%',   
-    // stagger passed here won't affect internal parts of the group animated by ScrollFloatElement
+    stagger: 0.03, // This stagger will apply if ScrollFloatElement internally handles multiple children, but currently it animates its wrapper.
   };
 
 
@@ -42,7 +42,7 @@ const FooterSection: React.FC = () => {
           <ScrollFloatElement {...scrollFloatProps}>
             <div className="flex items-center justify-center mt-[-5px]"> {/* This div groups image, emoji, and text */}
               <div className="relative mr-3 sm:mr-1">
-                <Image // No longer individually wrapped by ScrollFloatElement for initial scroll
+                <Image
                   src={currentImageSrc}
                   alt="Avatar Benediktus Adit"
                   width={100}
@@ -53,7 +53,7 @@ const FooterSection: React.FC = () => {
                 />
                 {isHovered && (
                   <ScrollFloatElement 
-                    {...scrollFloatProps} // Or dedicated props for hover animation
+                    {...scrollFloatProps} 
                     containerClassName="absolute bottom-4 left-0"
                   >
                     <span
@@ -67,33 +67,13 @@ const FooterSection: React.FC = () => {
                   </ScrollFloatElement>
                 )}
               </div>
-              <div style={{ marginTop: '-20px' }}>
-                <SplitText
-                  text="get in touch"
-                  className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8]"
-                  splitType="chars"
-                  delay={30} 
-                  duration={scrollFloatProps.animationDuration}
-                  ease={scrollFloatProps.ease}
-                  from={{
-                    opacity: 0,
-                    yPercent: 120,
-                    scaleY: 2.3,
-                    scaleX: 0.7,
-                    transformOrigin: "50% 0%",
-                  }}
-                  to={{
-                    opacity: 1,
-                    yPercent: 0,
-                    scaleY: 1,
-                    scaleX: 1,
-                  }}
-                  scrub={true}
-                  scrollStart={scrollFloatProps.scrollStart} 
-                  scrollEnd={scrollFloatProps.scrollEnd}     
-                  textAlign="center" 
-                />
-              </div>
+              {/* Replaced SplitText with a simple span for unified animation */}
+              <span 
+                className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8]"
+                style={{ marginTop: '-20px' }} // Retaining style for positioning if needed
+              >
+                get in touch
+              </span>
             </div>
           </ScrollFloatElement>
         </Link>
@@ -103,3 +83,4 @@ const FooterSection: React.FC = () => {
 };
 
 export default FooterSection;
+
