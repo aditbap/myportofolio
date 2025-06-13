@@ -108,10 +108,6 @@ export default {
           '60%': { transform: 'translateX(3px) rotate(1deg)' },
           '75%': { transform: 'translateX(-2px) rotate(0deg)' },
         },
-        'scroll-left': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -119,7 +115,6 @@ export default {
         'fadeInUp': 'fadeInUp 0.5s ease-out forwards',
         'fadeInUpBack': 'fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
         'wobble': 'wobble 0.8s ease-in-out',
-        'scroll-left': 'scroll-left 40s linear infinite', 
       },
     },
   },

@@ -114,7 +114,7 @@ const HeroSection: React.FC = () => {
         {/* Line 2 */}
         <div className={lineWrapperStyle}>
           <SplitText
-            text="student at computer science"
+            text="computer science student"
             className={textStyle}
             delay={secondLineDelay}
             duration={commonSplitTextDuration}
