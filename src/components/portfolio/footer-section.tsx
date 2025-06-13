@@ -29,11 +29,11 @@ const FooterSection: React.FC = () => {
   const currentImageHint = isHovered ? "avatar hover" : "avatar memoji";
 
   const scrollFloatProps = {
-    animationDuration: 1,
-    ease: 'back.inOut(2)',
-    scrollStart: 'center bottom+=50%', // Adjusted for typical footer visibility
-    scrollEnd: 'bottom bottom-=40%',   // Adjusted
-    stagger: 0.03,
+    animationDuration: 0.8,
+    ease: 'power1.out',
+    scrollStart: 'top bottom-=5vh', 
+    scrollEnd: 'center 75%',   
+    stagger: 0.03, // Stagger is kept for prop compatibility, no visual effect on single element
   };
 
 
@@ -91,3 +91,4 @@ const FooterSection: React.FC = () => {
 };
 
 export default FooterSection;
+
