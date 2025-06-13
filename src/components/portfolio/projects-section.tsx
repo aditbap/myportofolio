@@ -1,8 +1,11 @@
 // src/components/portfolio/projects-section.tsx
+"use client";
+
 import { Globe } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface Project {
   title: string;
@@ -47,7 +50,14 @@ const projects: Project[] = [
 ];
 
 const ProjectsSection: React.FC = () => (
-  <section id="projects" className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background">
+  <motion.section 
+    id="projects" 
+    className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background"
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.1 }}
+    transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+  >
     <div className="px-6">
       <div className="text-center mb-16">
         <span className="inline-block rounded-full bg-primary-foreground text-background px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
@@ -105,7 +115,7 @@ const ProjectsSection: React.FC = () => (
         ))}
       </div>
     </div>
-  </section>
+  </motion.section>
 );
 
 export default ProjectsSection;
