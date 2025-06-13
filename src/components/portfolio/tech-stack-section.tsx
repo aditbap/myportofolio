@@ -3,6 +3,7 @@
 
 import React, { useRef, useCallback, useEffect } from 'react';
 import { Layers, Database, Wind, Brain, Code } from 'lucide-react';
+import { gsap } from 'gsap';
 
 const technologies = [
   { name: "Next.js", icon: <Layers className="h-4 w-4 mr-2 text-foreground/70" /> },
@@ -29,69 +30,121 @@ const TechStackSection: React.FC = () => {
     </li>
   );
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // The visible "window"
+  const contentWrapperRef = useRef<HTMLDivElement>(null); // The div that moves
+
   const isDraggingRef = useRef(false);
-  const startXRef = useRef(0);
-  const scrollLeftStartRef = useRef(0);
+  const startXMouseRef = useRef(0); // Mouse X at drag start
+  const startTranslateXContentRef = useRef(0); // contentWrapper's translateX at drag start
 
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrollContainerRef.current) return;
-    isDraggingRef.current = true;
-    startXRef.current = e.pageX; // Record initial mouse position on the page
-    scrollLeftStartRef.current = scrollContainerRef.current.scrollLeft;
-    scrollContainerRef.current.style.cursor = 'grabbing';
-    scrollContainerRef.current.style.userSelect = 'none';
+  const animationFrameIdRef = useRef<number | null>(null);
+  const currentTranslateXRef = useRef(0); // Tracks the current translateX for auto-scroll
+  const autoScrollSpeed = -0.5; // Pixels per frame. Negative for left. Slower speed for smoother look.
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, []); // Empty dependency array for stable function reference
+  const performAutoScrollStep = useCallback(() => {
+    if (!contentWrapperRef.current || !contentWrapperRef.current.children[0]) {
+      animationFrameIdRef.current = null;
+      return;
+    }
+    
+    const singleListWidth = contentWrapperRef.current.children[0].offsetWidth;
+    if (singleListWidth === 0) { // Avoid division by zero if width not calculated yet
+      animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
+      return;
+    }
 
+    currentTranslateXRef.current += autoScrollSpeed;
+
+    if (currentTranslateXRef.current <= -singleListWidth) {
+      currentTranslateXRef.current += singleListWidth; 
+    }
+    gsap.set(contentWrapperRef.current, { x: currentTranslateXRef.current });
+    animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
+  }, [autoScrollSpeed]);
+
+  const startAutoScroll = useCallback(() => {
+    if (animationFrameIdRef.current) cancelAnimationFrame(animationFrameIdRef.current);
+    animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
+  }, [performAutoScrollStep]);
+
+  const stopAutoScroll = useCallback(() => {
+    if (animationFrameIdRef.current) {
+      cancelAnimationFrame(animationFrameIdRef.current);
+      animationFrameIdRef.current = null;
+    }
+  }, []);
+  
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDraggingRef.current || !scrollContainerRef.current) return;
-    e.preventDefault(); // Prevent text selection during drag
-    const mouseDelta = e.pageX - startXRef.current;
-    const scrollSpeedMultiplier = 1.5; // Adjust for faster/slower drag scroll
-    scrollContainerRef.current.scrollLeft = scrollLeftStartRef.current - (mouseDelta * scrollSpeedMultiplier);
-  }, []); // Empty dependency array for stable function reference
+    if (!isDraggingRef.current || !contentWrapperRef.current) return;
+    e.preventDefault();
+    const mouseDeltaX = e.pageX - startXMouseRef.current;
+    const newTranslateX = startTranslateXContentRef.current + mouseDeltaX;
+    
+    gsap.set(contentWrapperRef.current, { x: newTranslateX });
+    currentTranslateXRef.current = newTranslateX; 
+  }, []);
 
   const handleMouseUp = useCallback(() => {
     if (!isDraggingRef.current) return;
+    
     isDraggingRef.current = false;
     if (scrollContainerRef.current) {
       scrollContainerRef.current.style.cursor = 'grab';
-      scrollContainerRef.current.style.userSelect = 'auto';
     }
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
-  }, [handleMouseMove]); // handleMouseMove is stable
+    startAutoScroll();
+  }, [handleMouseMove, startAutoScroll]);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!contentWrapperRef.current || !scrollContainerRef.current) return;
+    
+    stopAutoScroll();
+    isDraggingRef.current = true;
+    startXMouseRef.current = e.pageX;
+    // Ensure we get a number from gsap.getProperty
+    const currentX = gsap.getProperty(contentWrapperRef.current, "x");
+    startTranslateXContentRef.current = typeof currentX === 'number' ? currentX : 0;
+    
+    scrollContainerRef.current.style.cursor = 'grabbing';
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  }, [stopAutoScroll, handleMouseMove, handleMouseUp]); 
 
   useEffect(() => {
-    const currentContainer = scrollContainerRef.current;
-    // Cleanup function to remove event listeners if component unmounts while dragging
+    if (contentWrapperRef.current && contentWrapperRef.current.children && contentWrapperRef.current.children.length > 0) {
+      // Ensure initial render is complete and widths are available
+      const initialDelay = setTimeout(() => {
+        gsap.set(contentWrapperRef.current, { x: 0 });
+        currentTranslateXRef.current = 0;
+        startAutoScroll();
+      }, 100); // Small delay for DOM to be ready
+       return () => clearTimeout(initialDelay);
+    }
+  }, [startAutoScroll]);
+  
+  useEffect(() => {
+    // Cleanup function for event listeners and animation frame
     return () => {
+      stopAutoScroll();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
-      if (currentContainer && isDraggingRef.current) {
-        currentContainer.style.cursor = 'grab';
-        currentContainer.style.userSelect = 'auto';
-      }
     };
-  }, [handleMouseMove, handleMouseUp]);
+  }, [stopAutoScroll, handleMouseMove, handleMouseUp]);
 
 
   return (
     <section id="tech-stack" className="py-8 md:py-12 bg-background">
       <div
         ref={scrollContainerRef}
-        className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 overflow-x-auto cursor-grab no-scrollbar"
+        className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 overflow-hidden cursor-grab no-scrollbar"
         onMouseDown={handleMouseDown}
       >
-        {/* Inner div that is wider than the container, allowing scrolling */}
-        <div className="flex"> 
+        <div ref={contentWrapperRef} className="flex">
           <ul className="flex flex-none whitespace-nowrap gap-3 sm:gap-4 py-2">
             {technologies.map((tech) => renderTechItem(tech, "original-"))}
           </ul>
-          {/* Duplicate for seamless "infinite" feel when dragging far */}
           <ul className="flex flex-none whitespace-nowrap gap-3 sm:gap-4 py-2" aria-hidden="true">
             {technologies.map((tech) => renderTechItem(tech, "clone-"))}
           </ul>
