@@ -2,8 +2,7 @@
 "use client";
 
 import { Globe } from 'lucide-react';
-// import { Card } from '@/components/ui/card'; // Replaced with SpotlightCard
-import SpotlightCard from '@/components/effects/SpotlightCard'; // Added import
+import SpotlightCard from '@/components/effects/SpotlightCard'; 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -75,8 +74,8 @@ const ProjectsSection: React.FC = () => (
         {projects.map((project, index) => (
           <SpotlightCard
             key={index}
-            className="flex flex-col group" // Added flex-col and group
-            spotlightColor="rgba(0, 229, 255, 0.2)" // User specified color
+            className="flex flex-col group" 
+            spotlightColor="rgba(0, 229, 255, 0.2)" 
           >
             {/* Image Section */}
             <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden">
@@ -108,7 +107,12 @@ const ProjectsSection: React.FC = () => (
               {/* Action Button */}
               <div className="mt-auto">
                 {project.liveLink && (
-                  <Button variant="secondary" size="sm" asChild className="w-full sm:w-auto">
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    asChild 
+                    className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground"
+                  >
                     <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
                       <Globe className="mr-2 h-4 w-4" /> Website
                     </a>
