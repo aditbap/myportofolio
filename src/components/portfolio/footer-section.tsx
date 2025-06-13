@@ -1,9 +1,11 @@
+
 // src/components/portfolio/footer-section.tsx
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import ScrollFloatElement from '@/components/effects/ScrollFloatElement'; // Import the new component
 
 // Baris berikut untuk mengimpor gambar lokal Anda.
 // 1. Buat direktori src/components/image/
@@ -26,6 +28,14 @@ const FooterSection: React.FC = () => {
   const currentImageSrc = isHovered ? hoverImageSrc : defaultImageSrc;
   const currentImageHint = isHovered ? "avatar hover" : "avatar memoji";
 
+  const scrollFloatProps = {
+    animationDuration: 1,
+    ease: 'back.inOut(2)',
+    scrollStart: 'center bottom+=50%', // Adjusted for typical footer visibility
+    scrollEnd: 'bottom bottom-=40%',   // Adjusted
+    stagger: 0.03,
+  };
+
 
   return (
     <footer className="py-64 md:py-80 text-center">
@@ -39,30 +49,39 @@ const FooterSection: React.FC = () => {
         >
           <div className="flex items-center justify-center mt-[-5px]"> {/* Added negative top margin */}
             <div className="relative mr-3 sm:mr-1"> {/* Kontainer relatif untuk emoticon */}
-              <Image
-                src={currentImageSrc}
-                alt="Avatar Benediktus Adit"
-                width={100}
-                height={100}
-                className="rounded-full transform transition-transform duration-300 ease-in-out group-hover:scale-110"
-                data-ai-hint={currentImageHint}
-                priority
-              />
+              <ScrollFloatElement {...scrollFloatProps} containerClassName="flex">
+                <Image
+                  src={currentImageSrc}
+                  alt="Avatar Benediktus Adit"
+                  width={100}
+                  height={100}
+                  className="rounded-full transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                  data-ai-hint={currentImageHint}
+                  priority
+                />
+              </ScrollFloatElement>
               {isHovered && (
-                <span
-                  className="absolute bottom-4 left-0 text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-12"
-                  role="img"
-                  aria-label="victory hand"
-                  style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
+                <ScrollFloatElement 
+                  {...scrollFloatProps} 
+                  containerClassName="absolute bottom-4 left-0" // Style applied to wrapper
                 >
-                  ✌🏻
-                </span>
+                  <span
+                    className="text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-12"
+                    role="img"
+                    aria-label="victory hand"
+                    style={{ textShadow: '0 0 5px rgba(0,0,0,0.2)' }}
+                  >
+                    ✌🏻
+                  </span>
+                </ScrollFloatElement>
               )}
             </div>
             <div style={{ marginTop: '-20px' }}> {/* Wrap text in a div */}
-              <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8] group-hover:opacity-90 transition-opacity">
-                get in touch
-              </span>
+              <ScrollFloatElement {...scrollFloatProps}>
+                <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8] group-hover:opacity-90 transition-opacity">
+                  get in touch
+                </span>
+              </ScrollFloatElement>
             </div>
           </div>
         </Link>
