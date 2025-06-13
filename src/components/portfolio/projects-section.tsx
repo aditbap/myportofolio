@@ -18,13 +18,13 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Studifai",
-    description: "A platform that helps academics with active learning by utilizing OpenAI's GPT models.",
+    title: "Event Hub",
+    description: "A platform that helps user to search a event and help event organizer to create an event. This app built for mobile first but deploying at website to make a easy acces",
     imageUrl: "https://placehold.co/600x375.png", // Aspect ratio 16:10 (600/375 = 1.6)
     imageHint: "educational platform UI",
-    technologies: ["Next.js", "Typescript", "PostgreSQL", "Prisma", "TailwindCSS", "Midtrans", "Shadcn UI", "Langchain"],
-    liveLink: "#",
-    date: "July 2024"
+    technologies: ["Next.js", "Typescript", "Firebase Database", "TailwindCSS", "Midtrans", "React",],
+    liveLink: "https://eventhub-tawny.vercel.app",
+    date: "June 2025"
   },
   {
     title: "Data Visualization Dashboard",
