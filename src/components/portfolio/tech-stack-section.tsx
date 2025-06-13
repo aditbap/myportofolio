@@ -31,25 +31,25 @@ const TechStackSection: React.FC = () => {
     </li>
   );
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null); // The visible "window"
-  const contentWrapperRef = useRef<HTMLDivElement>(null); // The div that moves
+  const scrollContainerRef = useRef<HTMLDivElement>(null); 
+  const contentWrapperRef = useRef<HTMLDivElement>(null); 
 
   const isDraggingRef = useRef(false);
-  const startXMouseRef = useRef(0); // Mouse X at drag start
-  const startTranslateXContentRef = useRef(0); // contentWrapper's translateX at drag start
+  const startXMouseRef = useRef(0); 
+  const startTranslateXContentRef = useRef(0); 
 
   const animationFrameIdRef = useRef<number | null>(null);
-  const currentTranslateXRef = useRef(0); // Tracks the current translateX for auto-scroll
-  const autoScrollSpeed = -0.5; // Pixels per frame. Negative for left. Slower speed for smoother look.
+  const currentTranslateXRef = useRef(0); 
+  const autoScrollSpeed = -0.5; 
 
   const performAutoScrollStep = useCallback(() => {
     if (!contentWrapperRef.current || !contentWrapperRef.current.children[0]) {
-      animationFrameIdRef.current = null;
+      animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
       return;
     }
     
-    const singleListWidth = contentWrapperRef.current.children[0].offsetWidth;
-    if (singleListWidth === 0) { // Avoid division by zero if width not calculated yet
+    const singleListWidth = (contentWrapperRef.current.children[0] as HTMLElement).offsetWidth;
+    if (singleListWidth === 0) { 
       animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
       return;
     }
@@ -76,14 +76,24 @@ const TechStackSection: React.FC = () => {
   }, []);
   
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDraggingRef.current || !contentWrapperRef.current) return;
+    if (!isDraggingRef.current || !contentWrapperRef.current || !contentWrapperRef.current.children[0]) return;
     e.preventDefault();
+
+    const singleListWidth = (contentWrapperRef.current.children[0] as HTMLElement).offsetWidth;
+    if (singleListWidth <= 0) return; // Guard against zero or negative width
+
     const mouseDeltaX = e.pageX - startXMouseRef.current;
-    const newTranslateX = startTranslateXContentRef.current + mouseDeltaX;
-    
-    gsap.set(contentWrapperRef.current, { x: newTranslateX });
-    currentTranslateXRef.current = newTranslateX; 
+    // 'raw' target X position based on where the drag started and how much mouse moved
+    const rawTargetX = startTranslateXContentRef.current + mouseDeltaX; 
+
+    // Normalize this rawTargetX to the canonical display range, e.g., [-singleListWidth, 0)
+    // This normalized value is what GSAP will use and what auto-scroll should resume from.
+    const displayX = ((rawTargetX % singleListWidth) - singleListWidth) % singleListWidth;
+
+    gsap.set(contentWrapperRef.current, { x: displayX });
+    currentTranslateXRef.current = displayX; // Update ref to the normalized, displayed position
   }, []);
+
 
   const handleMouseUp = useCallback(() => {
     if (!isDraggingRef.current) return;
@@ -103,7 +113,6 @@ const TechStackSection: React.FC = () => {
     stopAutoScroll();
     isDraggingRef.current = true;
     startXMouseRef.current = e.pageX;
-    // Ensure we get a number from gsap.getProperty
     const currentX = gsap.getProperty(contentWrapperRef.current, "x");
     startTranslateXContentRef.current = typeof currentX === 'number' ? currentX : 0;
     
@@ -115,18 +124,16 @@ const TechStackSection: React.FC = () => {
 
   useEffect(() => {
     if (contentWrapperRef.current && contentWrapperRef.current.children && contentWrapperRef.current.children.length > 0) {
-      // Ensure initial render is complete and widths are available
       const initialDelay = setTimeout(() => {
         gsap.set(contentWrapperRef.current, { x: 0 });
         currentTranslateXRef.current = 0;
         startAutoScroll();
-      }, 100); // Small delay for DOM to be ready
+      }, 100); 
        return () => clearTimeout(initialDelay);
     }
   }, [startAutoScroll]);
   
   useEffect(() => {
-    // Cleanup function for event listeners and animation frame
     return () => {
       stopAutoScroll();
       document.removeEventListener('mousemove', handleMouseMove);
