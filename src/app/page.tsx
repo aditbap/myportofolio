@@ -46,7 +46,7 @@ export default function BentoPortfolioPage() {
         <Dock
           className={cn(
             "rounded-full px-6 flex items-center justify-between w-full shrink-0 outline-none !gap-0 !mx-0 !mt-0 transition-shadow duration-300 ease-out",
-            "bg-background/80 dark:bg-neutral-800/90 backdrop-blur-md border border-border/70",
+            "bg-background/60 dark:bg-neutral-800/70 backdrop-blur-md border border-border/70",
             applyShadow ? "shadow-lg dark:shadow-xl" : "shadow-sm dark:shadow-none"
           )}
           direction="middle"
@@ -96,3 +96,4 @@ export default function BentoPortfolioPage() {
     </div>
   );
 }
+
