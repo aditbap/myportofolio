@@ -24,7 +24,8 @@ export default function BentoPortfolioPage() {
     requestAnimationFrame(raf);
 
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      // Updated threshold: shadow appears when scrolled more than 280px
+      if (window.scrollY > 280) {
         setApplyShadow(true);
       } else {
         setApplyShadow(false);
