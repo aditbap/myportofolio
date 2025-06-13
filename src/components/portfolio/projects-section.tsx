@@ -2,7 +2,8 @@
 "use client";
 
 import { Globe } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+// import { Card } from '@/components/ui/card'; // Replaced with SpotlightCard
+import SpotlightCard from '@/components/effects/SpotlightCard'; // Added import
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -72,7 +73,11 @@ const ProjectsSection: React.FC = () => (
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project, index) => (
-          <Card key={index} className="flex flex-col bg-card text-card-foreground shadow-md overflow-hidden rounded-lg group">
+          <SpotlightCard
+            key={index}
+            className="flex flex-col group" // Added flex-col and group
+            spotlightColor="rgba(0, 229, 255, 0.2)" // User specified color
+          >
             {/* Image Section */}
             <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden">
               <Image
@@ -85,7 +90,7 @@ const ProjectsSection: React.FC = () => (
               />
             </div>
 
-            {/* Content Section */}
+            {/* Content Section - Retains its own padding */}
             <div className="p-4 md:p-6 flex-grow flex flex-col">
               <h3 className="text-xl sm:text-2xl font-semibold text-foreground mb-1">{project.title}</h3>
               <p className="text-xs text-muted-foreground mb-3">{project.date}</p>
@@ -111,7 +116,7 @@ const ProjectsSection: React.FC = () => (
                 )}
               </div>
             </div>
-          </Card>
+          </SpotlightCard>
         ))}
       </div>
     </div>

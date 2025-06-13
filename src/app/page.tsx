@@ -67,7 +67,7 @@ export default function BentoPortfolioPage() {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com/yourusername" // Replace with your actual GitHub profile URL
+              href="https://github.com/aditbap" // Replace with your actual GitHub profile URL
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
