@@ -2,6 +2,7 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
+import { motion } from "framer-motion"; // Import motion
 
 import { cn } from "@/lib/utils";
 
@@ -28,9 +29,11 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
     ref,
   ) => {
     return (
-      <div // Changed from motion.div
+      <motion.div // Changed to motion.div
         ref={ref}
-        // Removed motion-specific props
+        initial={{ opacity: 0, y: 20 }} // Added opening animation
+        animate={{ opacity: 1, y: 0 }}   // Added opening animation
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }} // Added opening animation
         {...props}
         className={cn(
           dockVariants(),
@@ -42,13 +45,11 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
           }
         )}
       >
-        {children} {/* Directly render children */}
-      </div>
+        {children}
+      </motion.div>
     );
   },
 );
 Dock.displayName = "Dock";
-
-// DockIcon component, its props, and renderChildrenRecursive function are removed.
 
 export { Dock, dockVariants };
