@@ -111,7 +111,7 @@ const ProjectsSection: React.FC = () => (
                     variant="secondary" 
                     size="sm" 
                     asChild 
-                    className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground"
+                    className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white hover:text-black"
                   >
                     <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
                       <Globe className="mr-2 h-4 w-4" /> Website
