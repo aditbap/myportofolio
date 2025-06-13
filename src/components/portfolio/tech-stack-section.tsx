@@ -4,6 +4,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import { Layers, Database, Wind, Brain, Code } from 'lucide-react';
 import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
 
 const technologies = [
   { name: "Next.js", icon: <Layers className="h-4 w-4 mr-2 text-foreground/70" /> },
@@ -135,7 +136,14 @@ const TechStackSection: React.FC = () => {
 
 
   return (
-    <section id="tech-stack" className="py-8 md:py-12 bg-background">
+    <motion.section 
+      id="tech-stack" 
+      className="py-8 md:py-12 bg-background"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+    >
       <div
         ref={scrollContainerRef}
         className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 overflow-hidden cursor-grab no-scrollbar"
@@ -150,7 +158,7 @@ const TechStackSection: React.FC = () => {
           </ul>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

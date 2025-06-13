@@ -30,13 +30,13 @@ const projects: Project[] = [
     date: "June 2025"
   },
   {
-    title: "Data Visualization Dashboard",
-    description: "An interactive dashboard for visualizing complex datasets, providing insights through charts and graphs. Features real-time data updates and customizable views.",
+    title: "Personal Portofolio",
+    description: "A clean and user-friendly portfolio website designed to showcase projects and skills with smooth animations and a simple, modern interface for an engaging browsing experience.",
     imageUrl: "https://placehold.co/600x375.png",
     imageHint: "dashboard chart",
-    technologies: ["React", "D3.js", "Node.js", "MongoDB", "WebSocket"],
+    technologies: ["React", "Next.js", "Typescript", "TailwindCSS", "GSAP"],
     liveLink: "#",
-    date: "March 2023"
+    date: "June 2025"
   },
   {
     title: "Mobile Task Manager",
@@ -75,7 +75,7 @@ const ProjectsSection: React.FC = () => (
           <SpotlightCard
             key={index}
             className="flex flex-col group" 
-            spotlightColor="rgba(0, 229, 255, 0.2)" 
+            spotlightColor="rgba(255, 255, 255, 0.2)" 
           >
             {/* Image Section */}
             <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden">
