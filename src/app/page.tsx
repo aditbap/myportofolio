@@ -11,6 +11,7 @@ import { Dock } from '@/components/ui/dock';
 import Lenis from "lenis";
 import { useEffect, useState } from 'react';
 import { cn } from "@/lib/utils";
+import { ThemeToggleButton } from '@/components/ui/theme-toggle-button';
 
 export default function BentoPortfolioPage() {
   const [applyShadow, setApplyShadow] = useState(false);
@@ -24,7 +25,6 @@ export default function BentoPortfolioPage() {
     requestAnimationFrame(raf);
 
     const handleScroll = () => {
-      // Updated threshold: shadow appears when scrolled more than 280px
       if (window.scrollY > 280) {
         setApplyShadow(true);
       } else {
@@ -33,12 +33,10 @@ export default function BentoPortfolioPage() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Initial check in case page loads scrolled
     handleScroll(); 
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      // lenis.destroy(); // Optional: if Lenis instance needs cleanup
     };
   }, [])
 
@@ -67,7 +65,7 @@ export default function BentoPortfolioPage() {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com/aditbap" // Replace with your actual GitHub profile URL
+              href="https://github.com/aditbap" 
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
@@ -82,6 +80,7 @@ export default function BentoPortfolioPage() {
             >
               <Mail className="h-5 w-5" />
             </a>
+            <ThemeToggleButton />
           </div>
         </Dock>
       </header>
