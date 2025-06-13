@@ -17,26 +17,31 @@ export interface SplitTextProps {
   splitType?: "chars" | "words" | "lines" | "words, chars";
   from?: gsap.TweenVars;
   to?: gsap.TweenVars;
-  threshold?: number;
-  rootMargin?: string;
+  threshold?: number; // Deprecated in favor of rootMargin or direct scrollTrigger props
+  rootMargin?: string; // Controls start for non-scrub, or part of start for scrub
   textAlign?: React.CSSProperties["textAlign"];
   onAnimationComplete?: () => void;
-  staggerDelay?: number;
+  staggerDelay?: number; // Alternative prop name for delay, if needed. Use 'delay'.
+  scrub?: boolean | number;
+  scrollStart?: string; // More direct control over ScrollTrigger start
+  scrollEnd?: string; // More direct control over ScrollTrigger end
 }
 
 const SplitText: React.FC<SplitTextProps> = ({
   text,
   className = "",
-  delay = 30,
+  delay = 30, // Stagger delay in ms
   duration = 0.6,
   ease = "power3.out",
   splitType = "chars",
   from = { opacity: 0, y: 40 },
   to = { opacity: 1, y: 0 },
-  threshold = 0.1,
-  rootMargin = "0px", 
+  rootMargin = "0px",
   textAlign = "left",
   onAnimationComplete,
+  scrub = false,
+  scrollStart, // If provided, overrides rootMargin-based start
+  scrollEnd = "bottom center", // Default for scrub animations
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);
 
@@ -83,15 +88,24 @@ const SplitText: React.FC<SplitTextProps> = ({
           (t as HTMLElement).style.willChange = "transform, opacity";
         });
 
-        const start = `top bottom${parseInt(rootMargin) >= 0 ? '+' : '-'}=${Math.abs(parseInt(rootMargin))}px`;
+        const defaultStart = `top bottom${parseInt(rootMargin) >= 0 ? '+' : '-'}=${Math.abs(parseInt(rootMargin))}px`;
+        const stStart = scrollStart || defaultStart;
+
+        const scrollTriggerConfig: gsap.DOMTarget | ScrollTrigger.Vars = {
+          trigger: el,
+          start: stStart,
+        };
+
+        if (scrub || typeof scrub === 'number') {
+          scrollTriggerConfig.scrub = scrub;
+          scrollTriggerConfig.end = scrollEnd;
+        } else {
+          scrollTriggerConfig.toggleActions = "play reverse play reverse";
+        }
+        // scrollTriggerConfig.markers = true; // For debugging
 
         const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: el,
-            start: start,
-            toggleActions: "play reverse play reverse", // Play on enter, reverse on leave (both directions)
-            // markers: true, // For debugging
-          },
+          scrollTrigger: scrollTriggerConfig,
           smoothChildTiming: true,
           onComplete: onAnimationComplete,
         });
@@ -101,7 +115,7 @@ const SplitText: React.FC<SplitTextProps> = ({
           ...to,
           duration,
           ease,
-          stagger: delay / 1000,
+          stagger: delay / 1000, // GSAP stagger is in seconds
           force3D: true,
         });
 
@@ -119,7 +133,7 @@ const SplitText: React.FC<SplitTextProps> = ({
           }
         };
       });
-    }, 0);
+    }, 0); // End setTimeout
 
     return () => {
       clearTimeout(timeoutId);
@@ -137,8 +151,10 @@ const SplitText: React.FC<SplitTextProps> = ({
     splitType,
     from,
     to,
-    threshold,
-    rootMargin,
+    rootMargin, // Keep as dependency for defaultStart
+    scrollStart,
+    scrollEnd,
+    scrub,
     onAnimationComplete,
     textAlign
   ]);
@@ -149,7 +165,8 @@ const SplitText: React.FC<SplitTextProps> = ({
       className={`split-parent ${className}`}
       style={{
         textAlign,
-        display: 'block',
+        display: 'block', // Ensure it behaves as a block for layout
+        // overflow: 'hidden', // Optional: if characters might briefly exceed bounds before animation
       }}
     >
       {text}

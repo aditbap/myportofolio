@@ -5,26 +5,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import ScrollFloatElement from '@/components/effects/ScrollFloatElement'; // Import the new component
+import ScrollFloatElement from '@/components/effects/ScrollFloatElement';
+import SplitText from '@/components/effects/SplitText'; // Import SplitText
 
-// Baris berikut untuk mengimpor gambar lokal Anda.
-// 1. Buat direktori src/components/image/
-// 2. Taruh gambar Anda di sana, misalnya my-avatar.png dan my-avatar-hover.png
-// 3. Hapus komentar pada baris di bawah ini dan pastikan pathnya benar.
 import myAvatar from '@/components/image/my-avatar.png';
 import myAvatarHover from '@/components/image/my-avatar-hover.png';
-// Jika file belum ada, Next.js akan error saat build.
 
-// Untuk contoh ini, kita tetap menggunakan placeholder:
 const defaultImageSrc = myAvatar;
-const hoverImageSrc = myAvatarHover; // Placeholder berbeda untuk hover, ganti dengan gambar hover Anda
+const hoverImageSrc = myAvatarHover; 
 
 const FooterSection: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Jika menggunakan gambar lokal yang diimpor:
-  // const currentImageSrc = isHovered ? (myAvatarHover || hoverImageSrc) : (myAvatar || defaultImageSrc);
-  // Untuk sekarang, kita langsung gunakan placeholder:
   const currentImageSrc = isHovered ? hoverImageSrc : defaultImageSrc;
   const currentImageHint = isHovered ? "avatar hover" : "avatar memoji";
 
@@ -33,7 +25,7 @@ const FooterSection: React.FC = () => {
     ease: 'power1.out',
     scrollStart: 'top bottom-=5vh', 
     scrollEnd: 'center 75%',   
-    stagger: 0.03, // Stagger is kept for prop compatibility, no visual effect on single element
+    // stagger is for ScrollFloatElement, not used by SplitText directly here
   };
 
 
@@ -41,14 +33,14 @@ const FooterSection: React.FC = () => {
     <footer className="py-64 md:py-80 text-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Link
-          href="mailto:aditbaps@gmail.com"
-          className="inline-block group" // Mengubah menjadi inline-block dan group untuk hover effect
-          aria-label="Get in touch via email"
+          href="https://linkedin.com/in/aditbap" // Corrected Link
+          className="inline-block group" 
+          aria-label="Get in touch via LinkedIn" // Corrected Aria Label
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="flex items-center justify-center mt-[-5px]"> {/* Added negative top margin */}
-            <div className="relative mr-3 sm:mr-1"> {/* Kontainer relatif untuk emoticon */}
+          <div className="flex items-center justify-center mt-[-5px]">
+            <div className="relative mr-3 sm:mr-1">
               <ScrollFloatElement {...scrollFloatProps} containerClassName="flex">
                 <Image
                   src={currentImageSrc}
@@ -63,7 +55,7 @@ const FooterSection: React.FC = () => {
               {isHovered && (
                 <ScrollFloatElement 
                   {...scrollFloatProps} 
-                  containerClassName="absolute bottom-4 left-0" // Style applied to wrapper
+                  containerClassName="absolute bottom-4 left-0"
                 >
                   <span
                     className="text-3xl sm:text-4xl transform transition-all duration-300 ease-out -rotate-12"
@@ -76,12 +68,32 @@ const FooterSection: React.FC = () => {
                 </ScrollFloatElement>
               )}
             </div>
-            <div style={{ marginTop: '-20px' }}> {/* Wrap text in a div */}
-              <ScrollFloatElement {...scrollFloatProps}>
-                <span className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8] group-hover:opacity-90 transition-opacity">
-                  get in touch
-                </span>
-              </ScrollFloatElement>
+            <div style={{ marginTop: '-20px' }}>
+              <SplitText
+                text="get in touch"
+                className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8]" // Removed group-hover and transition for opacity
+                splitType="chars"
+                delay={30} // Stagger: 0.03s * 1000 = 30ms
+                duration={scrollFloatProps.animationDuration}
+                ease={scrollFloatProps.ease}
+                from={{
+                  opacity: 0,
+                  yPercent: 120,
+                  scaleY: 2.3,
+                  scaleX: 0.7,
+                  transformOrigin: "50% 0%",
+                }}
+                to={{
+                  opacity: 1,
+                  yPercent: 0,
+                  scaleY: 1,
+                  scaleX: 1,
+                }}
+                scrub={true}
+                scrollStart={scrollFloatProps.scrollStart} // Use the same start as other elements
+                scrollEnd={scrollFloatProps.scrollEnd}     // Use the same end
+                textAlign="center" 
+              />
             </div>
           </div>
         </Link>
@@ -91,4 +103,3 @@ const FooterSection: React.FC = () => {
 };
 
 export default FooterSection;
-
