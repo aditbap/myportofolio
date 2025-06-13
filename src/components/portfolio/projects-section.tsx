@@ -24,7 +24,7 @@ const projects: Project[] = [
     title: "Event Hub",
     description: "A platform that helps user to search a event and help event organizer to create an event. This app built for mobile first but deploying at website to make a easy acces",
     imageUrl: "https://placehold.co/600x375.png", // Aspect ratio 16:10 (600/375 = 1.6)
-    imageHint: "educational platform UI",
+    imageHint: "event platform UI",
     technologies: ["Next.js", "Typescript", "Firebase Database", "TailwindCSS", "Midtrans", "React",],
     liveLink: "https://eventhub-tawny.vercel.app",
     date: "June 2025"
@@ -33,7 +33,7 @@ const projects: Project[] = [
     title: "Personal Portofolio",
     description: "A clean and user-friendly portfolio website designed to showcase projects and skills with smooth animations and a simple, modern interface for an engaging browsing experience.",
     imageUrl: "https://placehold.co/600x375.png",
-    imageHint: "dashboard chart",
+    imageHint: "portfolio design",
     technologies: ["React", "Next.js", "Typescript", "TailwindCSS", "GSAP"],
     liveLink: "#",
     date: "June 2025"
@@ -42,7 +42,7 @@ const projects: Project[] = [
     title: "Mobile Task Manager",
     description: "A cross-platform mobile application for task management, featuring offline sync, reminders, and collaborative workspaces. Designed for productivity on the go.",
     imageUrl: "https://placehold.co/600x375.png",
-    imageHint: "mobile app",
+    imageHint: "task manager app",
     technologies: ["React Native", "Firebase", "Redux", "SQLite"],
     liveLink: "#",
     date: "August 2022"
@@ -60,7 +60,7 @@ const ProjectsSection: React.FC = () => (
   >
     <div className="px-6">
       <div className="text-center mb-16">
-        <span className="inline-block rounded-full bg-primary-foreground text-background px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
+        <span className="inline-block rounded-full bg-primary text-primary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
           Selected Projects
         </span>
         <h2 className="font-body text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -75,10 +75,10 @@ const ProjectsSection: React.FC = () => (
           <SpotlightCard
             key={index}
             className="flex flex-col group" 
-            spotlightColor="rgba(255, 255, 255, 0.2)" 
+            spotlightColor="rgba(0, 122, 255, 0.15)" // Apple-like blue spotlight
           >
             {/* Image Section */}
-            <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden">
+            <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg"> {/* Added rounded-t-lg for smoother top part of card */}
               <Image
                 src={project.imageUrl}
                 alt={project.title}
@@ -111,7 +111,7 @@ const ProjectsSection: React.FC = () => (
                     variant="secondary" 
                     size="sm" 
                     asChild 
-                    className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white hover:text-black"
+                    className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground dark:hover:bg-primary dark:hover:text-primary-foreground"
                   >
                     <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
                       <Globe className="mr-2 h-4 w-4" /> Website

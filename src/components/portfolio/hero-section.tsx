@@ -6,11 +6,12 @@ import React, { useEffect, useRef } from 'react';
 import SplitText from '@/components/effects/SplitText';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
-  const textStyle = "font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#dedede] leading-relaxed";
+  const textStyle = "font-jakarta font-extrabold text-3xl sm:text-4xl md:text-5xl text-foreground leading-relaxed";
   const lineWrapperStyle = "mb-1 sm:mb-2";
 
   const firstLineContainerRef = useRef<HTMLDivElement>(null);
@@ -92,7 +93,7 @@ const HeroSection: React.FC = () => {
     >
       <div className="px-6 pt-64">
         {/* Line 1 */}
-        <div ref={firstLineContainerRef} className={`flex items-baseline ${lineWrapperStyle}`}>
+        <div ref={firstLineContainerRef} className={cn(`flex items-baseline`, lineWrapperStyle)}>
           <SplitText
             text="i'm adit "
             className={textStyle}
@@ -106,7 +107,7 @@ const HeroSection: React.FC = () => {
             rootMargin="-50px"
             onAnimationComplete={handleFirstLineComplete}
           />
-          <span ref={emojiRef} className={`${textStyle} ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer`}>
+          <span ref={emojiRef} className={cn(textStyle, "ml-1 sm:ml-2 hover:animate-wobble inline-block cursor-pointer")}>
             ✌️
           </span>
         </div>

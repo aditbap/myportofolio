@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import ScrollFloatElement from '@/components/effects/ScrollFloatElement';
-// Removed SplitText import as it's no longer used here
+import { cn } from '@/lib/utils';
 
 import myAvatar from '@/components/image/my-avatar.png';
 import myAvatarHover from '@/components/image/my-avatar-hover.png';
@@ -25,7 +25,7 @@ const FooterSection: React.FC = () => {
     ease: 'power1.out',
     scrollStart: 'top bottom-=5vh', 
     scrollEnd: 'center 75%',   
-    stagger: 0.03, // This stagger will apply if ScrollFloatElement internally handles multiple children, but currently it animates its wrapper.
+    stagger: 0.03, 
   };
 
 
@@ -40,7 +40,7 @@ const FooterSection: React.FC = () => {
           onMouseLeave={() => setIsHovered(false)}
         >
           <ScrollFloatElement {...scrollFloatProps}>
-            <div className="flex items-center justify-center mt-[-5px]"> {/* This div groups image, emoji, and text */}
+            <div className="flex items-center justify-center mt-[-5px]"> 
               <div className="relative mr-3 sm:mr-1">
                 <Image
                   src={currentImageSrc}
@@ -67,10 +67,12 @@ const FooterSection: React.FC = () => {
                   </ScrollFloatElement>
                 )}
               </div>
-              {/* Replaced SplitText with a simple span for unified animation */}
               <span 
-                className="font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-[#d8d8d8]"
-                style={{ marginTop: '-20px' }} // Retaining style for positioning if needed
+                className={cn(
+                  "font-jakarta font-bold text-3xl sm:text-5xl md:text-5xl text-foreground",
+                  "dark:text-[#d8d8d8]" // Retain specific color for dark mode if desired, or remove for full foreground adaptation
+                )}
+                style={{ marginTop: '-20px' }} 
               >
                 get in touch
               </span>
@@ -83,4 +85,3 @@ const FooterSection: React.FC = () => {
 };
 
 export default FooterSection;
-
