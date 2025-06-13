@@ -63,7 +63,7 @@ const ProjectsSection: React.FC = () => (
         <span className="inline-block rounded-full bg-primary-foreground text-background px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
           Selected Projects
         </span>
-        <h2 className="font-headline text-4xl md:text-5xl font-bold text-foreground mb-4">
+        <h2 className="font-body text-4xl md:text-5xl font-bold text-foreground mb-4">
           Check out my latest work
         </h2>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
