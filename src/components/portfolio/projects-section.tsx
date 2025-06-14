@@ -2,7 +2,7 @@
 "use client";
 
 import { Globe } from 'lucide-react';
-import SpotlightCard from '@/components/effects/SpotlightCard'; 
+import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -50,8 +50,8 @@ const projects: Project[] = [
 ];
 
 const ProjectsSection: React.FC = () => (
-  <motion.section 
-    id="projects" 
+  <motion.section
+    id="projects"
     className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background"
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ const ProjectsSection: React.FC = () => (
   >
     <div className="px-6">
       <div className="text-center mb-16">
-        <span className="inline-block rounded-full bg-primary text-primary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
+        <span className="inline-block rounded-full bg-secondary text-secondary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
           Selected Projects
         </span>
         <h2 className="font-body text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -74,7 +74,7 @@ const ProjectsSection: React.FC = () => (
         {projects.map((project, index) => (
           <SpotlightCard
             key={index}
-            className="flex flex-col group" 
+            className="flex flex-col group"
             spotlightColor="rgba(0, 122, 255, 0.15)" // Apple-like blue spotlight
           >
             {/* Image Section */}
@@ -107,10 +107,10 @@ const ProjectsSection: React.FC = () => (
               {/* Action Button */}
               <div className="mt-auto">
                 {project.liveLink && (
-                  <Button 
-                    variant="secondary" 
-                    size="sm" 
-                    asChild 
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    asChild
                     className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground dark:hover:bg-primary dark:hover:text-primary-foreground"
                   >
                     <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
