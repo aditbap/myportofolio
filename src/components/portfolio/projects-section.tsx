@@ -6,8 +6,7 @@ import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
+// React, useRef, useCallback, useEffect, useState, gsap are not needed for this reverted version
 
 interface Project {
   title: string;
@@ -52,45 +51,11 @@ const projectsData: Project[] = [
 ];
 
 const ProjectsSection: React.FC = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const contentWrapperRef = useRef<HTMLDivElement>(null);
-
-  const isDraggingRef = useRef(false);
-  const startXMouseRef = useRef(0);
-  const startTranslateXContentRef = useRef(0);
-  const currentTranslateXRef = useRef(0);
-  const [hasEnoughContentToScroll, setHasEnoughContentToScroll] = useState(false);
-
-
-  useEffect(() => {
-    const checkScrollability = () => {
-      if (contentWrapperRef.current && scrollContainerRef.current) {
-        const contentWidth = contentWrapperRef.current.scrollWidth;
-        const containerWidth = scrollContainerRef.current.offsetWidth;
-        setHasEnoughContentToScroll(contentWidth > containerWidth);
-      }
-    };
-
-    checkScrollability();
-    window.addEventListener('resize', checkScrollability);
-    
-    // Set initial position if needed, though default is 0
-    if (contentWrapperRef.current) {
-      gsap.set(contentWrapperRef.current, { x: 0 });
-      currentTranslateXRef.current = 0;
-    }
-
-    return () => {
-      window.removeEventListener('resize', checkScrollability);
-    };
-  }, [projectsData]);
-
-
   const renderProjectCard = (project: Project, index: number) => (
     <SpotlightCard
       key={`${project.title}-${index}`}
-      className="w-[350px] flex flex-col group" // Fixed width for horizontal scroll
-      spotlightColor="rgba(0, 229, 255, 0.2)" // Example color from user
+      className="flex flex-col group" // Removed fixed width w-[350px]
+      spotlightColor="rgba(0, 229, 255, 0.2)"
     >
       <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
         <Image
@@ -131,76 +96,6 @@ const ProjectsSection: React.FC = () => {
     </SpotlightCard>
   );
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDraggingRef.current || !contentWrapperRef.current || !scrollContainerRef.current) return;
-    e.preventDefault();
-
-    const contentWidth = contentWrapperRef.current.scrollWidth;
-    const containerWidth = scrollContainerRef.current.offsetWidth;
-
-    if (contentWidth <= containerWidth) {
-        // No need to drag if content doesn't overflow
-        if (currentTranslateXRef.current !== 0) {
-            gsap.to(contentWrapperRef.current, { x: 0, duration: 0.3, ease: "power1.out" });
-            currentTranslateXRef.current = 0;
-        }
-        return;
-    }
-
-    const mouseDeltaX = e.pageX - startXMouseRef.current;
-    let targetX = startTranslateXContentRef.current + mouseDeltaX;
-
-    const minTranslateX = containerWidth - contentWidth; // Max scroll left (negative value)
-    const maxTranslateX = 0; // Max scroll right (origin)
-
-    targetX = Math.max(minTranslateX, Math.min(maxTranslateX, targetX));
-
-    gsap.set(contentWrapperRef.current, { x: targetX });
-    currentTranslateXRef.current = targetX;
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    if (!isDraggingRef.current) return;
-    
-    isDraggingRef.current = false;
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.style.cursor = 'grab';
-    }
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  }, [handleMouseMove]);
-
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!contentWrapperRef.current || !scrollContainerRef.current) return;
-
-    const contentWidth = contentWrapperRef.current.scrollWidth;
-    const containerWidth = scrollContainerRef.current.offsetWidth;
-
-    if (contentWidth <= containerWidth) {
-        // Prevent dragging if content doesn't overflow
-        return;
-    }
-    
-    isDraggingRef.current = true;
-    startXMouseRef.current = e.pageX;
-    // Use currentTranslateXRef as it's kept in sync, instead of querying GSAP
-    startTranslateXContentRef.current = currentTranslateXRef.current; 
-    
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.style.cursor = 'grabbing';
-    }
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  }, [handleMouseMove, handleMouseUp]); 
-  
-  useEffect(() => {
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [handleMouseMove, handleMouseUp]);
-
   return (
     <motion.section
       id="projects"
@@ -223,14 +118,8 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
         
-        <div
-          ref={scrollContainerRef}
-          className={`overflow-hidden no-scrollbar ${hasEnoughContentToScroll ? 'cursor-grab' : 'cursor-default'}`}
-          onMouseDown={hasEnoughContentToScroll ? handleMouseDown : undefined}
-        >
-          <div ref={contentWrapperRef} className="flex flex-none whitespace-nowrap gap-8 py-2">
-            {projectsData.map((project, index) => renderProjectCard(project, index))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projectsData.map((project, index) => renderProjectCard(project, index))}
         </div>
       </div>
     </motion.section>
