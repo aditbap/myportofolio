@@ -6,7 +6,7 @@ import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 
 interface Project {
@@ -58,16 +58,39 @@ const ProjectsSection: React.FC = () => {
   const isDraggingRef = useRef(false);
   const startXMouseRef = useRef(0);
   const startTranslateXContentRef = useRef(0);
-
-  const animationFrameIdRef = useRef<number | null>(null);
   const currentTranslateXRef = useRef(0);
-  const autoScrollSpeed = -0.3; // Adjusted speed for wider project cards
+  const [hasEnoughContentToScroll, setHasEnoughContentToScroll] = useState(false);
 
-  const renderProjectCard = (project: Project, keyPrefix: string = "") => (
+
+  useEffect(() => {
+    const checkScrollability = () => {
+      if (contentWrapperRef.current && scrollContainerRef.current) {
+        const contentWidth = contentWrapperRef.current.scrollWidth;
+        const containerWidth = scrollContainerRef.current.offsetWidth;
+        setHasEnoughContentToScroll(contentWidth > containerWidth);
+      }
+    };
+
+    checkScrollability();
+    window.addEventListener('resize', checkScrollability);
+    
+    // Set initial position if needed, though default is 0
+    if (contentWrapperRef.current) {
+      gsap.set(contentWrapperRef.current, { x: 0 });
+      currentTranslateXRef.current = 0;
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkScrollability);
+    };
+  }, [projectsData]);
+
+
+  const renderProjectCard = (project: Project, index: number) => (
     <SpotlightCard
-      key={`${keyPrefix}${project.title}`}
+      key={`${project.title}-${index}`}
       className="w-[350px] flex flex-col group" // Fixed width for horizontal scroll
-      spotlightColor="rgba(0, 229, 255, 0.2)"
+      spotlightColor="rgba(0, 229, 255, 0.2)" // Example color from user
     >
       <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
         <Image
@@ -108,52 +131,32 @@ const ProjectsSection: React.FC = () => {
     </SpotlightCard>
   );
 
-  const performAutoScrollStep = useCallback(() => {
-    if (!contentWrapperRef.current || !contentWrapperRef.current.children[0]) {
-      animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
-      return;
-    }
-    
-    const singleListWidth = (contentWrapperRef.current.children[0] as HTMLElement).offsetWidth;
-    if (singleListWidth === 0) { 
-      animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
-      return;
-    }
-
-    currentTranslateXRef.current += autoScrollSpeed;
-
-    if (currentTranslateXRef.current <= -singleListWidth) {
-      currentTranslateXRef.current += singleListWidth;
-    }
-    gsap.set(contentWrapperRef.current, { x: currentTranslateXRef.current });
-    animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
-  }, [autoScrollSpeed]);
-
-  const startAutoScroll = useCallback(() => {
-    if (animationFrameIdRef.current) cancelAnimationFrame(animationFrameIdRef.current);
-    animationFrameIdRef.current = requestAnimationFrame(performAutoScrollStep);
-  }, [performAutoScrollStep]);
-
-  const stopAutoScroll = useCallback(() => {
-    if (animationFrameIdRef.current) {
-      cancelAnimationFrame(animationFrameIdRef.current);
-      animationFrameIdRef.current = null;
-    }
-  }, []);
-  
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDraggingRef.current || !contentWrapperRef.current || !contentWrapperRef.current.children[0]) return;
+    if (!isDraggingRef.current || !contentWrapperRef.current || !scrollContainerRef.current) return;
     e.preventDefault();
 
-    const singleListWidth = (contentWrapperRef.current.children[0] as HTMLElement).offsetWidth;
-    if (singleListWidth <= 0) return;
+    const contentWidth = contentWrapperRef.current.scrollWidth;
+    const containerWidth = scrollContainerRef.current.offsetWidth;
+
+    if (contentWidth <= containerWidth) {
+        // No need to drag if content doesn't overflow
+        if (currentTranslateXRef.current !== 0) {
+            gsap.to(contentWrapperRef.current, { x: 0, duration: 0.3, ease: "power1.out" });
+            currentTranslateXRef.current = 0;
+        }
+        return;
+    }
 
     const mouseDeltaX = e.pageX - startXMouseRef.current;
-    const rawTargetX = startTranslateXContentRef.current + mouseDeltaX;
-    const displayX = ((rawTargetX % singleListWidth) - singleListWidth) % singleListWidth;
+    let targetX = startTranslateXContentRef.current + mouseDeltaX;
 
-    gsap.set(contentWrapperRef.current, { x: displayX });
-    currentTranslateXRef.current = displayX;
+    const minTranslateX = containerWidth - contentWidth; // Max scroll left (negative value)
+    const maxTranslateX = 0; // Max scroll right (origin)
+
+    targetX = Math.max(minTranslateX, Math.min(maxTranslateX, targetX));
+
+    gsap.set(contentWrapperRef.current, { x: targetX });
+    currentTranslateXRef.current = targetX;
   }, []);
 
   const handleMouseUp = useCallback(() => {
@@ -165,42 +168,38 @@ const ProjectsSection: React.FC = () => {
     }
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
-    startAutoScroll();
-  }, [handleMouseMove, startAutoScroll]);
+  }, [handleMouseMove]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!contentWrapperRef.current || !scrollContainerRef.current) return;
+
+    const contentWidth = contentWrapperRef.current.scrollWidth;
+    const containerWidth = scrollContainerRef.current.offsetWidth;
+
+    if (contentWidth <= containerWidth) {
+        // Prevent dragging if content doesn't overflow
+        return;
+    }
     
-    stopAutoScroll();
     isDraggingRef.current = true;
     startXMouseRef.current = e.pageX;
-    const currentX = gsap.getProperty(contentWrapperRef.current, "x");
-    startTranslateXContentRef.current = typeof currentX === 'number' ? currentX : 0;
+    // Use currentTranslateXRef as it's kept in sync, instead of querying GSAP
+    startTranslateXContentRef.current = currentTranslateXRef.current; 
     
-    scrollContainerRef.current.style.cursor = 'grabbing';
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.style.cursor = 'grabbing';
+    }
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-  }, [stopAutoScroll, handleMouseMove, handleMouseUp]); 
-
-  useEffect(() => {
-    if (contentWrapperRef.current && contentWrapperRef.current.children && contentWrapperRef.current.children.length > 0) {
-      const initialDelay = setTimeout(() => {
-        gsap.set(contentWrapperRef.current, { x: 0 });
-        currentTranslateXRef.current = 0;
-        startAutoScroll();
-      }, 100); 
-       return () => clearTimeout(initialDelay);
-    }
-  }, [startAutoScroll]);
+  }, [handleMouseMove, handleMouseUp]); 
   
   useEffect(() => {
     return () => {
-      stopAutoScroll();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [stopAutoScroll, handleMouseMove, handleMouseUp]);
+  }, [handleMouseMove, handleMouseUp]);
 
   return (
     <motion.section
@@ -226,16 +225,11 @@ const ProjectsSection: React.FC = () => {
         
         <div
           ref={scrollContainerRef}
-          className="overflow-hidden cursor-grab no-scrollbar"
-          onMouseDown={handleMouseDown}
+          className={`overflow-hidden no-scrollbar ${hasEnoughContentToScroll ? 'cursor-grab' : 'cursor-default'}`}
+          onMouseDown={hasEnoughContentToScroll ? handleMouseDown : undefined}
         >
-          <div ref={contentWrapperRef} className="flex">
-            <div className="flex flex-none whitespace-nowrap gap-8 py-2">
-              {projectsData.map((project) => renderProjectCard(project, "original-"))}
-            </div>
-            <div className="flex flex-none whitespace-nowrap gap-8 py-2" aria-hidden="true">
-              {projectsData.map((project) => renderProjectCard(project, "clone-"))}
-            </div>
+          <div ref={contentWrapperRef} className="flex flex-none whitespace-nowrap gap-8 py-2">
+            {projectsData.map((project, index) => renderProjectCard(project, index))}
           </div>
         </div>
       </div>
