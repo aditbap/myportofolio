@@ -1,6 +1,25 @@
-# Firebase Studio
+# 💼 Personal Portfolio Website
 
-This is a NextJS starter in Firebase Studio.
+Welcome to my personal portfolio website!  
+This site showcases my projects, skills, and experiences in a simple, modern, and user-friendly design.
 
-To get started, take a look at src/app/page.tsx.
-# myportofolio
+## 🌐 Live Preview
+
+You can view the live version here:  
+👉 aditbap.me
+
+## ✨ Features
+
+- Clean and minimalistic design
+- Smooth animations
+- Mobile-responsive layout
+- Project gallery with links
+- About Me and Contact sections
+
+## 🛠 Tech Stack
+
+- **Next.js** – for fast and modern web development
+- **React** – component-based UI
+- **Tailwind CSS** – utility-first styling
+- **TypeScript** – for type-safe development
+- **Framer Motion** – for sleek animations
