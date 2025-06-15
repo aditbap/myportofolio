@@ -1,3 +1,4 @@
+
 // src/components/portfolio/projects-section.tsx
 "use client";
 
@@ -6,6 +7,7 @@ import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/contexts/theme-provider';
 
 interface Project {
   title: string;
@@ -23,7 +25,7 @@ const projectsData: Project[] = [
   {
     title: "Event Hub",
     description: "A platform that helps user to search a event and help event organizer to create an event. This app built for mobile first but deploying at website to make a easy acces",
-    imageUrl: "https://placehold.co/600x375.png", // Aspect ratio 16:10 (600/375 = 1.6)
+    imageUrl: "https://placehold.co/600x375.png",
     imageHint: "event platform UI",
     technologies: ["Next.js", "Typescript", "Firebase Database", "TailwindCSS", "Midtrans", "React",],
     liveLink: "https://eventhub-tawny.vercel.app",
@@ -50,19 +52,25 @@ const projectsData: Project[] = [
 ];
 
 const ProjectsSection: React.FC = () => {
+  const { theme } = useTheme();
+
+  const cardSpotlightColor = theme === 'dark'
+    ? "rgba(255, 255, 255, 0.3)" // Light hover for dark mode
+    : "rgba(0, 0, 0, 0.08)";      // Dark gray hover for light mode
+
   const renderProjectCard = (project: Project, index: number) => (
     <SpotlightCard
       key={`${project.title}-${index}`}
-      className="flex flex-col group w-[350px] mx-auto" 
-      spotlightColor="rgba(0, 229, 255, 0.2)"
+      className="flex flex-col group w-[350px] mx-auto"
+      spotlightColor={cardSpotlightColor}
     >
       <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
         <Image
           src={project.imageUrl}
           alt={project.title}
-          fill 
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
-          style={{ objectFit: 'cover' }} 
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ objectFit: 'cover' }}
           data-ai-hint={project.imageHint}
           className="group-hover:scale-105 transition-transform duration-300"
         />
@@ -105,7 +113,7 @@ const ProjectsSection: React.FC = () => {
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
     >
-      <div> 
+      <div>
         <div className="text-center mb-16">
           <span className="inline-block rounded-full bg-secondary text-secondary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
             Selected Projects
