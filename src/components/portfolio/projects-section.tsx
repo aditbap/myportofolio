@@ -99,7 +99,7 @@ const ProjectsSection: React.FC = () => {
   return (
     <motion.section
       id="projects"
-      className="w-full max-w-lg sm:max-w-3xl lg:max-w-6xl mx-auto px-4 py-16 md:py-24 bg-background"
+      className="w-full max-w-lg md:max-w-3xl xl:max-w-6xl mx-auto px-4 py-16 md:py-24 bg-background"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -118,7 +118,7 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {projectsData.map((project, index) => renderProjectCard(project, index))}
         </div>
       </div>
