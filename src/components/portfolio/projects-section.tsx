@@ -117,7 +117,7 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projectsData.map((project, index) => renderProjectCard(project, index))}
         </div>
       </div>
