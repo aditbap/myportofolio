@@ -2,24 +2,14 @@
 // src/components/portfolio/projects-section.tsx
 "use client";
 
+import type { Project } from '@/types/portfolio';
 import { Globe } from 'lucide-react';
 import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/contexts/theme-provider';
-
-interface Project {
-  title: string;
-  description: string;
-  imageUrl: string;
-  imageHint: string;
-  technologies: string[];
-  liveLink?: string;
-  repoLink?: string;
-  emoji?: string;
-  date: string;
-}
+import React, { useEffect, useState } from 'react'; // Added React and useState, useEffect
 
 const projectsData: Project[] = [
   {
@@ -53,56 +43,66 @@ const projectsData: Project[] = [
 
 const ProjectsSection: React.FC = () => {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const cardSpotlightColor = theme === 'dark'
-    ? "rgba(255, 255, 255, 0.3)" // Light hover for dark mode
-    : "rgba(0, 0, 0, 0.08)";      // Dark gray hover for light mode
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const renderProjectCard = (project: Project, index: number) => (
-    <SpotlightCard
-      key={`${project.title}-${index}`}
-      className="flex flex-col group w-[350px] mx-auto"
-      spotlightColor={cardSpotlightColor}
-    >
-      <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
-        <Image
-          src={project.imageUrl}
-          alt={project.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          style={{ objectFit: 'cover' }}
-          data-ai-hint={project.imageHint}
-          className="group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div className="p-4 md:p-6 flex-grow flex flex-col">
-        <h3 className="text-xl sm:text-2xl font-semibold text-foreground mb-1">{project.title}</h3>
-        <p className="text-xs text-muted-foreground mb-3">{project.date}</p>
-        <p className="text-sm text-foreground/90 mb-4 line-clamp-3 sm:line-clamp-none flex-grow">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.technologies.map(tech => (
-            <span key={tech} className="font-sans text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-md">
-              {tech}
-            </span>
-          ))}
+  const renderProjectCard = (project: Project, index: number) => {
+    const cardSpotlightColor = mounted
+      ? theme === 'dark'
+        ? "rgba(255, 255, 255, 0.3)"
+        : "rgba(0, 0, 0, 0.08)"
+      : undefined; // Pass undefined if not mounted, SpotlighCard will use its default
+
+    return (
+      <SpotlightCard
+        key={`${project.title}-${index}`}
+        className="flex flex-col group w-[350px] mx-auto"
+        spotlightColor={cardSpotlightColor}
+      >
+        <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: 'cover' }}
+            data-ai-hint={project.imageHint}
+            className="group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
-        <div className="mt-auto">
-          {project.liveLink && (
-            <Button
-              variant="secondary"
-              size="sm"
-              asChild
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground"
-            >
-              <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-                <Globe className="mr-2 h-4 w-4" /> Website
-              </a>
-            </Button>
-          )}
+        <div className="p-4 md:p-6 flex-grow flex flex-col">
+          <h3 className="text-xl sm:text-2xl font-semibold text-foreground mb-1">{project.title}</h3>
+          <p className="text-xs text-muted-foreground mb-3">{project.date}</p>
+          <p className="text-sm text-foreground/90 mb-4 line-clamp-3 sm:line-clamp-none flex-grow">{project.description}</p>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.technologies.map(tech => (
+              <span key={tech} className="font-sans text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-md">
+                {tech}
+              </span>
+            ))}
+          </div>
+          <div className="mt-auto">
+            {project.liveLink && (
+              <Button
+                variant="secondary"
+                size="sm"
+                asChild
+                className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground"
+              >
+                <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
+                  <Globe className="mr-2 h-4 w-4" /> Website
+                </a>
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-    </SpotlightCard>
-  );
+      </SpotlightCard>
+    );
+  };
+
 
   return (
     <motion.section
@@ -135,3 +135,16 @@ const ProjectsSection: React.FC = () => {
 };
 
 export default ProjectsSection;
+
+// Define the Project type (can be moved to a separate types file, e.g., src/types/portfolio.ts)
+interface Project {
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageHint: string;
+  technologies: string[];
+  liveLink?: string;
+  repoLink?: string;
+  emoji?: string;
+  date: string;
+}
