@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/contexts/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Bento Portfolio',
-  description: 'A personal portfolio with a playful minimalist aesthetic.',
+  title: 'aditbap',
+  description: 'A personal portfolio of Adit student majoring in Computer Science focusing at AI',
 };
 
 export default function RootLayout({
