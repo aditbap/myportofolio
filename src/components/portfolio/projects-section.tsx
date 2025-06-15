@@ -60,8 +60,9 @@ const ProjectsSection: React.FC = () => {
         <Image
           src={project.imageUrl}
           alt={project.title}
-          layout="fill"
-          objectFit="cover"
+          fill // Changed from layout="fill" objectFit="cover" for Next 13+
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optional: provide sizes for better optimization
+          style={{ objectFit: 'cover' }} // Retain object-fit style
           data-ai-hint={project.imageHint}
           className="group-hover:scale-105 transition-transform duration-300"
         />
@@ -83,7 +84,7 @@ const ProjectsSection: React.FC = () => {
               variant="secondary"
               size="sm"
               asChild
-              className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white hover:text-black dark:hover:bg-primary dark:hover:text-primary-foreground"
+              className="w-full sm:w-auto transition-all duration-300 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-foreground"
             >
               <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
                 <Globe className="mr-2 h-4 w-4" /> Website
@@ -104,7 +105,7 @@ const ProjectsSection: React.FC = () => {
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
     >
-      <div className="px-6">
+      <div className=""> {/* Removed px-6 */}
         <div className="text-center mb-16">
           <span className="inline-block rounded-full bg-secondary text-secondary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
             Selected Projects
@@ -126,3 +127,4 @@ const ProjectsSection: React.FC = () => {
 };
 
 export default ProjectsSection;
+
