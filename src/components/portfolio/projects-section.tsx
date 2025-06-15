@@ -6,7 +6,6 @@ import SpotlightCard from '@/components/effects/SpotlightCard';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-// React, useRef, useCallback, useEffect, useState, gsap are not needed for this reverted version
 
 interface Project {
   title: string;
@@ -54,7 +53,7 @@ const ProjectsSection: React.FC = () => {
   const renderProjectCard = (project: Project, index: number) => (
     <SpotlightCard
       key={`${project.title}-${index}`}
-      className="flex flex-col group" // Removed fixed width w-[350px]
+      className="flex flex-col group w-[350px] mx-auto" 
       spotlightColor="rgba(0, 229, 255, 0.2)"
     >
       <div className="relative w-full aspect-[16/10] bg-muted overflow-hidden rounded-t-lg">
