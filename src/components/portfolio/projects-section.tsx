@@ -60,9 +60,9 @@ const ProjectsSection: React.FC = () => {
         <Image
           src={project.imageUrl}
           alt={project.title}
-          fill // Changed from layout="fill" objectFit="cover" for Next 13+
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optional: provide sizes for better optimization
-          style={{ objectFit: 'cover' }} // Retain object-fit style
+          fill 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+          style={{ objectFit: 'cover' }} 
           data-ai-hint={project.imageHint}
           className="group-hover:scale-105 transition-transform duration-300"
         />
@@ -99,13 +99,13 @@ const ProjectsSection: React.FC = () => {
   return (
     <motion.section
       id="projects"
-      className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl mx-auto px-4 py-16 md:py-24 bg-background"
+      className="w-full max-w-lg sm:max-w-3xl lg:max-w-6xl mx-auto px-4 py-16 md:py-24 bg-background"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
     >
-      <div className=""> {/* Removed px-6 */}
+      <div> 
         <div className="text-center mb-16">
           <span className="inline-block rounded-full bg-secondary text-secondary-foreground px-4 py-1.5 text-sm font-semibold mb-6 shadow-md">
             Selected Projects
@@ -118,7 +118,7 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectsData.map((project, index) => renderProjectCard(project, index))}
         </div>
       </div>
@@ -127,4 +127,3 @@ const ProjectsSection: React.FC = () => {
 };
 
 export default ProjectsSection;
-
