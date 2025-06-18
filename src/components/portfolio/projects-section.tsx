@@ -18,7 +18,7 @@ const projectsData: Project[] = [
     imageUrl: "https://placehold.co/600x375.png",
     imageHint: "event platform UI",
     technologies: ["Next.js", "Typescript", "Firebase Database", "TailwindCSS", "Midtrans", "React",],
-    liveLink: "https://eventhub-tawny.vercel.app",
+    liveLink: "https://upjevent.vercel.app",
     date: "June 2025"
   },
   {
